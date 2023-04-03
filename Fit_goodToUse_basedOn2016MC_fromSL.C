@@ -472,17 +472,17 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
    for(Int_t i=0; i < data->numEntries(); i++) {
     const RooArgSet*  obs = data->get(i);
     double weight = sData->GetSWeight(i,"N_Upsi1_S_Z_S_sw");
-    std::cout << "sWeight for entry i = " << i << " of N_Upsi1_S_Z_S_sw:  " << weight << std::endl;
+    std::cout << "sWeight for event i = " << i << "," << " related to how likely this event is to be Upsi1_S_Z_S:  " << weight << std::endl;
     
 //    std::cout << "///////////////////////////////////////////" << std::endl;
     
     double weight2 = sData->GetSWeight(i, "N_Upsi2_S_Z_S_sw");
-    std::cout << "sWeight for entry i = " << i << " of N_Upsi2_S_Z_S_sw:  " << weight2 << std::endl;
+    std::cout << "sWeight for event i = " << i << "," << " related to how likely this event is to be Upsi2_S_Z_S:  " << weight2 << std::endl;
     
 //    std::cout << "///////////////////////////////////////////" << std::endl; 
     
     double weight3 = sData->GetSWeight(i, "N_Upsi3_S_Z_S_sw");
-    std::cout << "sWeight for entry i = " << i << " of N_Upsi3_S_Z_S_sw:  " << weight3 << std::endl;
+    std::cout << "sWeight for event i = " << i << "," << " related to how likely this event is to be Upsi3_S_Z_S:  " << weight3 << std::endl;
     
     std::cout << "///////////////////////////////////////////" << std::endl; 
 }
