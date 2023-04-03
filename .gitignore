@@ -1,0 +1,6 @@
+*/*.pdf
+*.pdf
+*.root
+*.so
+*.pcm
+*.d
