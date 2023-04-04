@@ -69,7 +69,7 @@ using namespace RooFit ;
 using namespace RooStats ;
 
 void fit();
-void Fit_goodToUse_basedOn2016MC_fromSL() { fit(); }
+void Fit_goodToUse_basedOn2016MC_fromSL_ZY() { fit(); }
 void fit() {
   
   //Constants
@@ -162,7 +162,8 @@ void fit() {
 //  TFile *ntuple_mc = new TFile("13Oct2022_Data_allYears_SL-like.root");
 //  TFile *ntuple_mc  = new TFile("2016_2017_2018_pfIso_0p35_forZmu_0p7_forUpsiMu.root");
 //  TFile *ntuple_mc = new TFile("ntuple_2016_2017_2018_pfIso0p7forUpsiMu_0p2forZMu.root");
-  TFile *ntuple_mc = new TFile("30March2023_ntuple_2016_2017_2018_Run2_Data_Total.root"); //should be the same as 2016_2017_2018_pfIso_0p35_forZmu_0p7_forUpsiMu.root
+//  TFile *ntuple_mc = new TFile("30March2023_ntuple_2016_2017_2018_Run2_Data_Total.root"); //should be the same as 2016_2017_2018_pfIso_0p35_forZmu_0p7_forUpsiMu.root
+  TFile *ntuple_mc    = new TFile("MC_Weighted_Run2_Total_ZY.root");
   TTree* tree_mc      = (TTree*) ntuple_mc->Get("tree");
 
   RooArgSet Variables(upsi_mass, Z_mass, upsi_pT); //If you try to put too many in here, things will break, so better to do Variables.add(blah blah blah) as I do below when you want to add something
