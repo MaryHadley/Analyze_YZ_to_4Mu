@@ -73,7 +73,7 @@ void Fit_goodToUse_basedOn2016MC_fromSL_YZ() { fit(); }
 void fit() {
   
   //Constants
-  double PI = 3.14159;
+  double PI = 3.14159265358;
   
   gStyle->SetOptStat(0);
   gStyle->SetOptFit(0);
@@ -92,10 +92,10 @@ void fit() {
   RooRealVar upsi_eta("upsi_eta", "upsi_eta", -10, 10);
   
  //Z variables
-  RooRealVar Z_pT("Z_pT","Z_pT",0, 250);
+  RooRealVar Z_pT("Z_pT","Z_pT",0, 250); //Needed to raise the allowed range for the Z_pT to 1100 in order to not have any MC events excluded
   RooRealVar Z_RAPIDITY("Z_RAPIDITY", "Z_RAPIDITY", -2.5, 2.5);
   RooRealVar Z_phi("Z_phi", "Z_phi",-PI,PI);
-  RooRealVar Z_eta("Z_eta", "Z_eta", -10, 10);
+  RooRealVar Z_eta("Z_eta", "Z_eta", -12, 12);
  
  //Lead pT mu from Z Variables
  RooRealVar lead_pT_mu_from_Z_pT("lead_pT_mu_from_Z_pT", "lead_pT_mu_from_Z_pT", 20, 200); 
@@ -121,6 +121,19 @@ void fit() {
  RooRealVar sublead_pT_mu_from_upsi_eta("sublead_pT_mu_from_upsi_eta", "sublead_pT_mu_from_upsi_eta", -2.5, 2.5);
  RooRealVar sublead_pT_mu_from_upsi_phi("sublead_pT_mu_from_upsi_phi", "sublead_pT_mu_from_upsi_phi", -PI, PI);
  
+ //Add upsi_type so that we can cut on it
+  RooRealVar upsi_type("upsi_type", "upsi_type", -5, 5); //The way Stefanos suggested of trying to trick the code
+ //by calling upsi_type a RooRealVar and then doing upsi_type > 0.5 and upsi_type < 1.5 if we were trying to pick
+ //out the upsi_type ==1 case for example, trying the approach again now that upsi_type is a double
+ 
+ //  RooCategory upsi_type("upsi_type", "upsi_type");
+//   upsi_type.defineType("Upsi1", 1);
+//   upsi_type.defineType("Upsi2", 2);
+//   upsi_type.defineType("Upsi3", 3);
+//   
+  //Adding this as a test
+//  RooRealVar big4MuVtxProb("big4MuVtxProb", "big4MuVtxProb", 0, 1);
+ 
  /////////////////////////////////////////////////////////////////////////////////
 //  TFile *ntuple_data  = new TFile("ntuple_skimmed_maryTest_12July2021.root");
  // TFile *ntuple_data   = new TFile( "big4MuVtxCutRemoved_Runs2016-2017-2018_Total.root");
@@ -141,7 +154,11 @@ void fit() {
 //    TFile *ntuple_data = new TFile("13Oct2022_Data_allYears_SL-like.root");
 //   TFile *ntuple_data  = new TFile("2016_2017_2018_pfIso_0p35_forZmu_0p7_forUpsiMu.root");
 //    TFile *ntuple_data = new TFile("ntuple_2016_2017_2018_pfIso0p7forUpsiMu_0p2forZMu.root");
-    TFile *ntuple_data = new TFile("30March2023_ntuple_2016_2017_2018_Run2_Data_Total.root"); //should be the same as 2016_2017_2018_pfIso_0p35_forZmu_0p7_forUpsiMu.root
+//    TFile *ntuple_data = new TFile("30March2023_ntuple_2016_2017_2018_Run2_Data_Total.root"); //should be the same as 2016_2017_2018_pfIso_0p35_forZmu_0p7_forUpsiMu.root
+//    TFile *ntuple_data   = new TFile("ntuple_2016_upsi_type_double.root"); //this is for testing only!
+    TFile *ntuple_data = new TFile("12April2023_ntuple_v3_pfIso0p35forZmu_0p7forUpsiMu_2016_2017_2018_Total_Data.root"); // this version of the root file as upsi_type saved as a double
+    //which is critical for getting it added to our RooArgSet //v3 indicates that upsi_type is now a double
+//    TFile *ntuple_data = new TFile("MC_DPS_Weighted_Run2_Total_YZ_v3.root");
     TTree* tree_data = (TTree*) ntuple_data->Get("tree");
     
  // TFile *ntuple_mc    = new TFile("ntuple_skimmed_maryTest_12July2021.root");
@@ -163,17 +180,21 @@ void fit() {
 //  TFile *ntuple_mc  = new TFile("2016_2017_2018_pfIso_0p35_forZmu_0p7_forUpsiMu.root");
 //  TFile *ntuple_mc = new TFile("ntuple_2016_2017_2018_pfIso0p7forUpsiMu_0p2forZMu.root");
 //  TFile *ntuple_mc = new TFile("30March2023_ntuple_2016_2017_2018_Run2_Data_Total.root"); //should be the same as 2016_2017_2018_pfIso_0p35_forZmu_0p7_forUpsiMu.root
-  TFile *ntuple_mc    = new TFile("MC_Weighted_Run2_Total_YZ.root");
+//  TFile *ntuple_mc    = new TFile("MC_Weighted_Run2_Total_YZ.root");
+ // TFile *ntuple_mc    = new TFile("ntuple_2016_upsi_type_double.root"); //this is for testing only!
+ //   TFile *ntuple_mc = new TFile("12April2023_ntuple_v3_pfIso0p35forZmu_0p7forUpsiMu_2016_2017_2018_Total_Data.root");
+  TFile *ntuple_mc = new TFile("MC_DPS_Weighted_Run2_Total_YZ_v3.root"); //this version of the root file, the v3, has upsi_type as a double, which turns out to be 
+  //critical for being able to add it our RooArgSet
   TTree* tree_mc      = (TTree*) ntuple_mc->Get("tree");
 
   RooArgSet Variables(upsi_mass, Z_mass, upsi_pT); //If you try to put too many in here, things will break, so better to do Variables.add(blah blah blah) as I do below when you want to add something
  //  RooArgSet Variables(upsi_mass, Z_mass); //upsi_pT
- //adding Z variables
+ /// /adding Z variables
      Variables.add(Z_pT);
      Variables.add(Z_RAPIDITY);
      Variables.add(Z_phi);
      Variables.add(Z_eta);
-// //   
+// // //   
 // //   //adding upsi variables
      Variables.add(upsi_RAPIDITY);
      Variables.add(upsi_phi);
@@ -202,16 +223,35 @@ void fit() {
     Variables.add(sublead_pT_mu_from_upsi_RAPIDITY);
     Variables.add(sublead_pT_mu_from_upsi_eta);
     Variables.add(sublead_pT_mu_from_upsi_phi);
-//   
-  
+    
+    //Add upsi_type as a variable so that we can cut on it
+      Variables.add(upsi_type);
+// //   
+//Adding this as a test
+//   Variables.add(big4MuVtxProb);
   //////////////////////////////////////////////////////////////
   
   RooDataSet *data    = new RooDataSet("data", "data", tree_data, Variables);
   RooDataSet *mc      = new RooDataSet("mc",   "mc",   tree_mc,   Variables);
-
+  
+   std::cout << "Checkpoint 0" << std::endl;
+   std::cout << mc->sumEntries() << std::endl;
 // that's how you apply cuts if needed
 //  TCut SelectionCut = "1.";
 //  RooDataSet *cut_data      = (RooDataSet*)data     ->reduce(SelectionCut);
+
+    TCut SelectionCut1 = "upsi_type > 0.5 && upsi_type < 1.5";
+    TCut SelectionCut2 = "upsi_type > 1.5 && upsi_type < 2.5";
+    TCut SelectionCut3 = "upsi_type > 2.5 && upsi_type < 3.5 ";
+   
+    RooDataSet *cut_mc1 = (RooDataSet*)mc->reduce(SelectionCut1);
+    RooDataSet *cut_mc2 = (RooDataSet*)mc->reduce(SelectionCut2);
+    RooDataSet *cut_mc3 = (RooDataSet*)mc->reduce(SelectionCut3);
+    
+    std::cout << "Checkpoint 1" << std::endl;
+    std::cout << cut_mc1->sumEntries() << std::endl;
+    std::cout << cut_mc2->sumEntries() << std::endl;
+    std::cout << cut_mc3->sumEntries() << std::endl;
 
   RooRealVar mean_mUpsilon1  ("mean_mUpsilon1","mean of gaussian", 9.46);//, 9.26, 9.66); //fix mean at PDG value
   RooRealVar sigma_mUpsilon1 ("sigma_mUpsilon1","Scale Factor 1",  0.101, 0.098114, 0.103886);  //0.1004, .0853, 0.1154
@@ -736,12 +776,17 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   data_weighted_3->plotOn(frame_sublead_pT_mu_from_upsi_phi_upsi3, XErrorSize(0));
   
   //Won't cause a bug, nothing will be drawn because I added the lines in the wrong place, they need to go as shown in the example of c_weighted 
- //  TH1* tmp6 = tree_mc->createHistogram("Z_mass",Z_bins); tmp6->Scale(N_Upsi1_S_Z_S.getVal() / tree_mc->sumEntries()); tmp6->Draw("hesame"); tmp6->SetLineColor(kRed); tmp6->SetMarkerSize(0);
+ 
 //TH1* tmp6 = mc->createHistogram("Z_mass",Z_bins); tmp6->Scale(N_Upsi1_S_Z_S.getVal() / mc->sumEntries()); tmp6->Draw("hesame"); tmp6->SetLineColor(kRed); tmp6->SetMarkerSize(0);
   
  //Canvases, draw on them and save them
   TCanvas *c_weighted = new TCanvas("c_weighted", "c_weighted", 1200, 400); c_weighted->Divide(3,1);
   c_weighted->cd(1); frame_pt_upsilon1->Draw();
+//  TH1* tmp1 = cut_mc1->createHistogram("upsi_pT", upsi_pT_bins);
+//  tmp1->Scale(N_Upsi1_S_Z_S.getVal()/cut_mc1->sumEntries());
+//  tmp1->Draw("hesame");
+//  tmp1->SetLineColor(kRed);
+//  tmp1->SetMarkerSize(0);
   c_weighted->cd(2); frame_pt_upsilon2->Draw();
   c_weighted->cd(3); frame_pt_upsilon3->Draw();
   //test //this is how you have MC drawn on the same plot as the sWeighted data //Obviously this example is nonsense, since I'm plotting the Z_mass on top of the upsi 3 pT, and I 
