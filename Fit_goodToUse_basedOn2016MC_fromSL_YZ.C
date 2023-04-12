@@ -181,9 +181,9 @@ void fit() {
 //  TFile *ntuple_mc = new TFile("ntuple_2016_2017_2018_pfIso0p7forUpsiMu_0p2forZMu.root");
 //  TFile *ntuple_mc = new TFile("30March2023_ntuple_2016_2017_2018_Run2_Data_Total.root"); //should be the same as 2016_2017_2018_pfIso_0p35_forZmu_0p7_forUpsiMu.root
 //  TFile *ntuple_mc    = new TFile("MC_Weighted_Run2_Total_YZ.root");
- // TFile *ntuple_mc    = new TFile("ntuple_2016_upsi_type_double.root"); //this is for testing only!
- //   TFile *ntuple_mc = new TFile("12April2023_ntuple_v3_pfIso0p35forZmu_0p7forUpsiMu_2016_2017_2018_Total_Data.root");
-  TFile *ntuple_mc = new TFile("MC_DPS_Weighted_Run2_Total_YZ_v3.root"); //this version of the root file, the v3, has upsi_type as a double, which turns out to be 
+   TFile *ntuple_mc    = new TFile("ntuple_2016_upsi_type_double.root"); //this is for testing only!
+//    TFile *ntuple_mc = new TFile("12April2023_ntuple_v3_pfIso0p35forZmu_0p7forUpsiMu_2016_2017_2018_Total_Data.root");
+//  TFile *ntuple_mc = new TFile("MC_DPS_Weighted_Run2_Total_YZ_v3.root"); //this version of the root file, the v3, has upsi_type as a double, which turns out to be 
   //critical for being able to add it our RooArgSet
   TTree* tree_mc      = (TTree*) ntuple_mc->Get("tree");
 
@@ -780,42 +780,132 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
 //TH1* tmp6 = mc->createHistogram("Z_mass",Z_bins); tmp6->Scale(N_Upsi1_S_Z_S.getVal() / mc->sumEntries()); tmp6->Draw("hesame"); tmp6->SetLineColor(kRed); tmp6->SetMarkerSize(0);
   
  //Canvases, draw on them and save them
+ 
+ //Canvas 1
   TCanvas *c_weighted = new TCanvas("c_weighted", "c_weighted", 1200, 400); c_weighted->Divide(3,1);
-  c_weighted->cd(1); frame_pt_upsilon1->Draw();
-//  TH1* tmp1 = cut_mc1->createHistogram("upsi_pT", upsi_pT_bins);
-//  tmp1->Scale(N_Upsi1_S_Z_S.getVal()/cut_mc1->sumEntries());
-//  tmp1->Draw("hesame");
-//  tmp1->SetLineColor(kRed);
-//  tmp1->SetMarkerSize(0);
+  
+  c_weighted->cd(1); frame_pt_upsilon1->Draw(); //Draw the sWeighted data
+  TH1* tmp1 = cut_mc1->createHistogram("upsi_pT", upsi_pT_bins); //Draw and scale the upsi pT of upsilons that have been tagged as upsi 1
+  tmp1->Scale(N_Upsi1_S_Z_S.getVal()/cut_mc1->sumEntries());
+  tmp1->Draw("hesame");
+  tmp1->SetLineColor(kRed);
+  tmp1->SetMarkerSize(0);
+  
   c_weighted->cd(2); frame_pt_upsilon2->Draw();
+  TH1* tmp2 = cut_mc2->createHistogram("upsi_pT", upsi_pT_bins);
+  tmp2->Scale(N_Upsi2_S_Z_S.getVal()/cut_mc2->sumEntries());
+  tmp2->Draw("hesame");
+  tmp2->SetLineColor(kRed);
+  tmp2->SetMarkerSize(0);
+  
   c_weighted->cd(3); frame_pt_upsilon3->Draw();
-  //test //this is how you have MC drawn on the same plot as the sWeighted data //Obviously this example is nonsense, since I'm plotting the Z_mass on top of the upsi 3 pT, and I 
-  //scaled it to the yield of upsi 1 + Z, so this is really total nonsense, but it illustrates how you code it up
-//TH1* tmp6 = mc->createHistogram("Z_mass",Z_bins); tmp6->Scale(N_Upsi1_S_Z_S.getVal() / mc->sumEntries()); tmp6->Draw("hesame"); tmp6->SetLineColor(kRed); tmp6->SetMarkerSize(0);
+  TH1* tmp3= cut_mc3->createHistogram("upsi_pT", upsi_pT_bins);
+  tmp3->Scale(N_Upsi3_S_Z_S.getVal()/cut_mc3->sumEntries());
+  tmp3->Draw("hesame");
+  tmp3->SetLineColor(kRed);
+  tmp3->SetMarkerSize(0);
+  
   c_weighted->SaveAs("c_weighted_upsi_pT.pdf");
 
+  
+//Canvas 2
   TCanvas *c_weighted2 = new TCanvas("c_weighted2", "c_weighted2", 1200,400); c_weighted2->Divide(3,1);
   c_weighted2->cd(1); frame_pt_Z_upsi1->Draw();
+  TH1* tmp4 = cut_mc1->createHistogram("Z_pT", Z_pT_bins);
+  tmp4->Scale(N_Upsi1_S_Z_S.getVal()/cut_mc1->sumEntries());
+  tmp4->Draw("hesame");
+  tmp4->SetLineColor(kRed);
+  tmp4->SetMarkerSize(0);
+  
   c_weighted2->cd(2); frame_pt_Z_upsi2->Draw();
+  TH1* tmp5 = cut_mc2->createHistogram("Z_pT", Z_pT_bins);
+  tmp5->Scale(N_Upsi2_S_Z_S.getVal()/cut_mc2->sumEntries());
+  tmp5->Draw("hesame");
+  tmp5->SetLineColor(kRed);
+  tmp5->SetMarkerSize(0);
+  
   c_weighted2->cd(3); frame_pt_Z_upsi3->Draw();
+  TH1* tmp6 = cut_mc3->createHistogram("Z_pT", Z_pT_bins);
+  tmp6->Scale(N_Upsi3_S_Z_S.getVal()/cut_mc3->sumEntries());
+  tmp6->Draw("hesame");
+  tmp6->SetLineColor(kRed);
+  tmp6->SetMarkerSize(0);
+  
   c_weighted2->SaveAs("c_weighted_Z_pT.pdf");
   
+  //Canvas 3
   TCanvas *c_weighted3 = new TCanvas("c_weighted3", "c_weighted3", 1200, 400); c_weighted3->Divide(3,1);
   c_weighted3->cd(1); frame_Z_RAP_upsi1->Draw();
+  TH1* tmp7 = cut_mc1->createHistogram("Z_RAPIDITY", Z_RAP_bins);
+  tmp7->Scale(N_Upsi1_S_Z_S.getVal()/cut_mc1->sumEntries());
+  tmp7->Draw("hesame");
+  tmp7->SetLineColor(kRed);
+  tmp7->SetMarkerSize(0);
+  
   c_weighted3->cd(2); frame_Z_RAP_upsi2->Draw();
+  TH1* tmp8 = cut_mc2->createHistogram("Z_RAPIDITY", Z_RAP_bins);
+  tmp8->Scale(N_Upsi2_S_Z_S.getVal()/cut_mc2->sumEntries());
+  tmp8->Draw("hesame");
+  tmp8->SetLineColor(kRed);
+  tmp8->SetMarkerSize(0);
+  
   c_weighted3->cd(3); frame_Z_RAP_upsi3->Draw();
+  TH1* tmp9 = cut_mc3->createHistogram("Z_RAPIDITY", Z_RAP_bins);
+  tmp9->Scale(N_Upsi3_S_Z_S.getVal()/cut_mc3->sumEntries());
+  tmp9->Draw("hesame");
+  tmp9->SetLineColor(kRed);
+  tmp9->SetMarkerSize(0);
+  
   c_weighted3->SaveAs("c_weighted_Z_RAP.pdf");
   
+  //Canvas 4
   TCanvas *c_weighted4 = new TCanvas("c_weighted4", "c_weighted4", 1200, 400); c_weighted4->Divide(3,1);
   c_weighted4->cd(1); frame_Z_phi_upsi1->Draw();
+  TH1* tmp10 = cut_mc1->createHistogram("Z_phi", Z_phi_bins);
+  tmp10->Scale(N_Upsi1_S_Z_S.getVal()/cut_mc1->sumEntries());
+  tmp10->Draw("hesame");
+  tmp10->SetLineColor(kRed);
+  tmp10->SetMarkerSize(0);
+  
   c_weighted4->cd(2); frame_Z_phi_upsi2->Draw();
+  TH1* tmp11 = cut_mc2->createHistogram("Z_phi", Z_phi_bins);
+  tmp11->Scale(N_Upsi2_S_Z_S.getVal()/cut_mc2->sumEntries());
+  tmp11->Draw("hesame");
+  tmp11->SetLineColor(kRed);
+  tmp11->SetMarkerSize(0);
+  
   c_weighted4->cd(3); frame_Z_phi_upsi3->Draw();
+  TH1* tmp12 = cut_mc3->createHistogram("Z_phi", Z_phi_bins);
+  tmp12->Scale(N_Upsi3_S_Z_S.getVal()/cut_mc3->sumEntries());
+  tmp12->Draw("hesame");
+  tmp12->SetLineColor(kRed);
+  tmp12->SetMarkerSize(0);
+  
   c_weighted4->SaveAs("c_weighted_Z_phi.pdf");
   
+  //Canvas 5
   TCanvas *c_weighted5 = new TCanvas("c_weighted5", "c_weighted5", 1200, 400); c_weighted5->Divide(3,1);
   c_weighted5->cd(1); frame_Z_eta_upsi1->Draw();
+  TH1* tmp13 = cut_mc1->createHistogram("Z_eta", Z_eta_bins);
+  tmp13->Scale(N_Upsi1_S_Z_S.getVal()/cut_mc1->sumEntries());
+  tmp13->Draw("hesame");
+  tmp13->SetLineColor(kRed);
+  tmp13->SetMarkerSize(0);
+  
   c_weighted5->cd(2); frame_Z_eta_upsi2->Draw();
+  TH1* tmp14 = cut_mc2->createHistogram("Z_eta", Z_eta_bins);
+  tmp14->Scale(N_Upsi2_S_Z_S.getVal()/cut_mc2->sumEntries());
+  tmp14->Draw("hesame");
+  tmp14->SetLineColor(kRed);
+  tmp14->SetMarkerSize(0);
+  
   c_weighted5->cd(3); frame_Z_eta_upsi3->Draw();
+  TH1* tmp15 = cut_mc3->createHistogram("Z_eta", Z_eta_bins);
+  tmp15->Scale(N_Upsi3_S_Z_S.getVal()/cut_mc3->sumEntries());
+  tmp15->Draw("hesame");
+  tmp15->SetLineColor(kRed);
+  tmp15->SetMarkerSize(0);
+  
   c_weighted5->SaveAs("c_weighted_Z_eta.pdf");
   
   TCanvas *c_weighted6 = new TCanvas("c_weighted6", "c_weighted6", 1200, 400); c_weighted6->Divide(3,1);
