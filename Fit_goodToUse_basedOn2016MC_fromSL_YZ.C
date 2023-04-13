@@ -181,9 +181,9 @@ void fit() {
 //  TFile *ntuple_mc = new TFile("ntuple_2016_2017_2018_pfIso0p7forUpsiMu_0p2forZMu.root");
 //  TFile *ntuple_mc = new TFile("30March2023_ntuple_2016_2017_2018_Run2_Data_Total.root"); //should be the same as 2016_2017_2018_pfIso_0p35_forZmu_0p7_forUpsiMu.root
 //  TFile *ntuple_mc    = new TFile("MC_Weighted_Run2_Total_YZ.root");
-   TFile *ntuple_mc    = new TFile("ntuple_2016_upsi_type_double.root"); //this is for testing only!
+//   TFile *ntuple_mc    = new TFile("ntuple_2016_upsi_type_double.root"); //this is for testing only!
 //    TFile *ntuple_mc = new TFile("12April2023_ntuple_v3_pfIso0p35forZmu_0p7forUpsiMu_2016_2017_2018_Total_Data.root");
-//  TFile *ntuple_mc = new TFile("MC_DPS_Weighted_Run2_Total_YZ_v3.root"); //this version of the root file, the v3, has upsi_type as a double, which turns out to be 
+  TFile *ntuple_mc = new TFile("MC_DPS_Weighted_Run2_Total_YZ_v3.root"); //this version of the root file, the v3, has upsi_type as a double, which turns out to be 
   //critical for being able to add it our RooArgSet
   TTree* tree_mc      = (TTree*) ntuple_mc->Get("tree");
 
@@ -1046,87 +1046,368 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   
   //Canvas 11
   TCanvas *c_weighted11 = new TCanvas("c_weighted11", "c_weighted11", 1200, 400); c_weighted11->Divide(3,1);
+  
   c_weighted11->cd(1); frame_lead_pT_mu_from_Z_eta_upsi1->Draw();
+  TH1* tmp31 = cut_mc1->createHistogram("lead_pT_mu_from_Z_eta", lead_pT_mu_from_Z_eta_bins);
+  tmp31->Scale(N_Upsi1_S_Z_S.getVal()/cut_mc1->sumEntries());
+  tmp31->Draw("hesame");
+  tmp31->SetLineColor(kRed);
+  tmp31->SetMarkerSize(0);
+  
   c_weighted11->cd(2); frame_lead_pT_mu_from_Z_eta_upsi2->Draw();
+  TH1* tmp32 = cut_mc2->createHistogram("lead_pT_mu_from_Z_eta", lead_pT_mu_from_Z_eta_bins);
+  tmp32->Scale(N_Upsi2_S_Z_S.getVal()/cut_mc2->sumEntries());
+  tmp32->Draw("hesame");
+  tmp32->SetLineColor(kRed);
+  tmp32->SetMarkerSize(0);
+  
   c_weighted11->cd(3); frame_lead_pT_mu_from_Z_eta_upsi3->Draw();
+  TH1* tmp33 = cut_mc3->createHistogram("lead_pT_mu_from_Z_eta", lead_pT_mu_from_Z_eta_bins);
+  tmp33->Scale(N_Upsi3_S_Z_S.getVal()/cut_mc3->sumEntries());
+  tmp33->Draw("hesame");
+  tmp33->SetLineColor(kRed);
+  tmp33->SetMarkerSize(0);
+  
   c_weighted11->SaveAs("c_weighted_lead_pT_mu_from_Z_eta.pdf");
   
+  
+  //Canvas 12
   TCanvas *c_weighted12 = new TCanvas("c_weighted12", "c_weighted12", 1200, 400); c_weighted12->Divide(3,1);
+  
   c_weighted12->cd(1); frame_lead_pT_mu_from_Z_phi_upsi1->Draw();
+  TH1* tmp34 = cut_mc1->createHistogram("lead_pT_mu_from_Z_phi", lead_pT_mu_from_Z_phi_bins);
+  tmp34->Scale(N_Upsi1_S_Z_S.getVal()/cut_mc1->sumEntries());
+  tmp34->Draw("hesame");
+  tmp34->SetLineColor(kRed);
+  tmp34->SetMarkerSize(0);
+  
   c_weighted12->cd(2); frame_lead_pT_mu_from_Z_phi_upsi2->Draw();
+  TH1* tmp35 = cut_mc2->createHistogram("lead_pT_mu_from_Z_phi", lead_pT_mu_from_Z_phi_bins);
+  tmp35->Scale(N_Upsi2_S_Z_S.getVal()/cut_mc2->sumEntries());
+  tmp35->Draw("hesame");
+  tmp35->SetLineColor(kRed);
+  tmp35->SetMarkerSize(0);
+  
   c_weighted12->cd(3); frame_lead_pT_mu_from_Z_phi_upsi3->Draw();
+  TH1* tmp36 = cut_mc3->createHistogram("lead_pT_mu_from_Z_phi", lead_pT_mu_from_Z_phi_bins);
+  tmp36->Scale(N_Upsi3_S_Z_S.getVal()/cut_mc3->sumEntries());
+  tmp36->Draw("hesame");
+  tmp36->SetLineColor(kRed);
+  tmp36->SetMarkerSize(0);
+  
   c_weighted12->SaveAs("c_weighted_lead_pT_mu_from_Z_phi.pdf");
   
+  //Canvas 13
   TCanvas *c_weighted13 = new TCanvas("c_weighted13", "c_weighted13", 1200, 400); c_weighted13->Divide(3,1);
+  
   c_weighted13->cd(1); frame_sublead_pT_mu_from_Z_pT_upsi1->Draw();
+  TH1* tmp37 = cut_mc1->createHistogram("sublead_pT_mu_from_Z_pT", sublead_pT_mu_from_Z_pT_bins);
+  tmp37->Scale(N_Upsi1_S_Z_S.getVal()/cut_mc1->sumEntries());
+  tmp37->Draw("hesame");
+  tmp37->SetLineColor(kRed);
+  tmp37->SetMarkerSize(0);
+  
   c_weighted13->cd(2); frame_sublead_pT_mu_from_Z_pT_upsi2->Draw();
+  TH1* tmp38 = cut_mc2->createHistogram("sublead_pT_mu_from_Z_pT", sublead_pT_mu_from_Z_pT_bins);
+  tmp38->Scale(N_Upsi2_S_Z_S.getVal()/cut_mc2->sumEntries());
+  tmp38->Draw("hesame");
+  tmp38->SetLineColor(kRed);
+  tmp38->SetMarkerSize(0);
+  
   c_weighted13->cd(3); frame_sublead_pT_mu_from_Z_pT_upsi3->Draw();
+  TH1* tmp39 = cut_mc3->createHistogram("sublead_pT_mu_from_Z_pT", sublead_pT_mu_from_Z_pT_bins);
+  tmp39->Scale(N_Upsi3_S_Z_S.getVal()/cut_mc3->sumEntries());
+  tmp39->Draw("hesame");
+  tmp39->SetLineColor(kRed);
+  tmp39->SetMarkerSize(0);
+  
   c_weighted13->SaveAs("c_weighted_sublead_pT_mu_from_Z_pT.pdf");
   
+  //Canvas 14
   TCanvas *c_weighted14 = new TCanvas("c_weighted14", "c_weighted14", 1200,400); c_weighted14->Divide(3,1);
+  
   c_weighted14->cd(1); frame_sublead_pT_mu_from_Z_RAP_upsi1->Draw();
+  TH1* tmp40 = cut_mc1->createHistogram("sublead_pT_mu_from_Z_RAPIDITY", sublead_pT_mu_from_Z_RAP_bins);
+  tmp40->Scale(N_Upsi1_S_Z_S.getVal()/cut_mc1->sumEntries());
+  tmp40->Draw("hesame");
+  tmp40->SetLineColor(kRed);
+  tmp40->SetMarkerSize(0);
+  
   c_weighted14->cd(2); frame_sublead_pT_mu_from_Z_RAP_upsi2->Draw();
+  TH1* tmp41 = cut_mc2->createHistogram("sublead_pT_mu_from_Z_RAPIDITY", sublead_pT_mu_from_Z_RAP_bins);
+  tmp41->Scale(N_Upsi2_S_Z_S.getVal()/cut_mc2->sumEntries());
+  tmp41->Draw("hesame");
+  tmp41->SetLineColor(kRed);
+  tmp41->SetMarkerSize(0);
+  
   c_weighted14->cd(3); frame_sublead_pT_mu_from_Z_RAP_upsi3->Draw();
+  TH1* tmp42 = cut_mc3->createHistogram("sublead_pT_mu_from_Z_RAPIDITY", sublead_pT_mu_from_Z_RAP_bins);
+  tmp42->Scale(N_Upsi3_S_Z_S.getVal()/cut_mc3->sumEntries());
+  tmp42->Draw("hesame");
+  tmp42->SetLineColor(kRed);
+  tmp42->SetMarkerSize(0);
+ 
   c_weighted14->SaveAs("c_weighted_sublead_pT_mu_from_Z_RAP.pdf");
   
+  //Canvas 15
   TCanvas *c_weighted15 = new TCanvas("c_weighted15", "c_weighted15", 1200, 400); c_weighted15->Divide(3,1);
+  
   c_weighted15->cd(1); frame_sublead_pT_mu_from_Z_eta_upsi1->Draw();
+  TH1* tmp43 = cut_mc1->createHistogram("sublead_pT_mu_from_Z_eta", sublead_pT_mu_from_Z_eta_bins);
+  tmp43->Scale(N_Upsi1_S_Z_S.getVal()/cut_mc1->sumEntries());
+  tmp43->Draw("hesame");
+  tmp43->SetLineColor(kRed);
+  tmp43->SetMarkerSize(0);
+  
   c_weighted15->cd(2); frame_sublead_pT_mu_from_Z_eta_upsi2->Draw();
+  TH1* tmp44 = cut_mc2->createHistogram("sublead_pT_mu_from_Z_eta", sublead_pT_mu_from_Z_eta_bins);
+  tmp44->Scale(N_Upsi2_S_Z_S.getVal()/cut_mc2->sumEntries());
+  tmp44->Draw("hesame");
+  tmp44->SetLineColor(kRed);
+  tmp44->SetMarkerSize(0);
+  
   c_weighted15->cd(3); frame_sublead_pT_mu_from_Z_eta_upsi3->Draw();
+  TH1* tmp45 = cut_mc3->createHistogram("sublead_pT_mu_from_Z_eta", sublead_pT_mu_from_Z_eta_bins);
+  tmp45->Scale(N_Upsi3_S_Z_S.getVal()/cut_mc3->sumEntries());
+  tmp45->Draw("hesame");
+  tmp45->SetLineColor(kRed);
+  tmp45->SetMarkerSize(0);
+ 
   c_weighted15->SaveAs("c_weighted_sublead_pT_mu_from_Z_eta.pdf");
   
+  //Canvas 16
   TCanvas *c_weighted16 = new TCanvas("c_weighted16", "c_weighted16", 1200,400); c_weighted16->Divide(3,1);
+  
   c_weighted16->cd(1); frame_sublead_pT_mu_from_Z_phi_upsi1->Draw();
+  TH1* tmp46 = cut_mc1->createHistogram("sublead_pT_mu_from_Z_phi", sublead_pT_mu_from_Z_phi_bins);
+  tmp46->Scale(N_Upsi1_S_Z_S.getVal()/cut_mc1->sumEntries());
+  tmp46->Draw("hesame");
+  tmp46->SetLineColor(kRed);
+  tmp46->SetMarkerSize(0);
+  
   c_weighted16->cd(2); frame_sublead_pT_mu_from_Z_phi_upsi2->Draw();
+  TH1* tmp47 = cut_mc2->createHistogram("sublead_pT_mu_from_Z_phi", sublead_pT_mu_from_Z_phi_bins);
+  tmp47->Scale(N_Upsi2_S_Z_S.getVal()/cut_mc2->sumEntries());
+  tmp47->Draw("hesame");
+  tmp47->SetLineColor(kRed);
+  tmp47->SetMarkerSize(0);
+  
   c_weighted16->cd(3); frame_sublead_pT_mu_from_Z_phi_upsi3->Draw();
+  TH1* tmp48 = cut_mc3->createHistogram("sublead_pT_mu_from_Z_phi", sublead_pT_mu_from_Z_phi_bins);
+  tmp48->Scale(N_Upsi3_S_Z_S.getVal()/cut_mc3->sumEntries());
+  tmp48->Draw("hesame");
+  tmp48->SetLineColor(kRed);
+  tmp48->SetMarkerSize(0);
+  
   c_weighted16->SaveAs("c_weighted_sublead_pT_mu_from_Z_phi.pdf");
   
+  //Canvas 17
   TCanvas *c_weighted17 = new TCanvas("c_weighted17", "c_weighted17", 1200, 400); c_weighted17->Divide(3,1);
+  
   c_weighted17->cd(1); frame_lead_pT_mu_from_upsi_pT_upsi1->Draw();
+  TH1* tmp49 = cut_mc1->createHistogram("lead_pT_mu_from_upsi_pT", lead_pT_mu_from_upsi_pT_bins);
+  tmp49->Scale(N_Upsi1_S_Z_S.getVal()/cut_mc1->sumEntries());
+  tmp49->Draw("hesame");
+  tmp49->SetLineColor(kRed);
+  tmp49->SetMarkerSize(0);
+  
   c_weighted17->cd(2); frame_lead_pT_mu_from_upsi_pT_upsi2->Draw();
+  TH1* tmp50 = cut_mc2->createHistogram("lead_pT_mu_from_upsi_pT", lead_pT_mu_from_upsi_pT_bins);
+  tmp50->Scale(N_Upsi2_S_Z_S.getVal()/cut_mc2->sumEntries());
+  tmp50->Draw("hesame");
+  tmp50->SetLineColor(kRed);
+  tmp50->SetMarkerSize(0);
+  
   c_weighted17->cd(3); frame_lead_pT_mu_from_upsi_pT_upsi3->Draw();
+  TH1* tmp51 = cut_mc3->createHistogram("lead_pT_mu_from_upsi_pT", lead_pT_mu_from_upsi_pT_bins);
+  tmp51->Scale(N_Upsi3_S_Z_S.getVal()/cut_mc3->sumEntries());
+  tmp51->Draw("hesame");
+  tmp51->SetLineColor(kRed);
+  tmp51->SetMarkerSize(0);
+  
   c_weighted17->SaveAs("c_weighted_lead_pT_mu_from_upsi_pT.pdf");
   
+  //Canvas 18
   TCanvas *c_weighted18 = new TCanvas("c_weighted18", "c_weighted18", 1200, 400); c_weighted18->Divide(3,1);
+  
   c_weighted18->cd(1); frame_lead_pT_mu_from_upsi_RAP_upsi1->Draw();
+  TH1* tmp52 = cut_mc1->createHistogram("lead_pT_mu_from_upsi_RAPIDITY", lead_pT_mu_from_upsi_RAP_bins);
+  tmp52->Scale(N_Upsi1_S_Z_S.getVal()/cut_mc1->sumEntries());
+  tmp52->Draw("hesame");
+  tmp52->SetLineColor(kRed);
+  tmp52->SetMarkerSize(0);
+  
   c_weighted18->cd(2); frame_lead_pT_mu_from_upsi_RAP_upsi2->Draw();
+  TH1* tmp53 = cut_mc2->createHistogram("lead_pT_mu_from_upsi_RAPIDITY", lead_pT_mu_from_upsi_RAP_bins);
+  tmp53->Scale(N_Upsi2_S_Z_S.getVal()/cut_mc2->sumEntries());
+  tmp53->Draw("hesame");
+  tmp53->SetLineColor(kRed);
+  tmp53->SetMarkerSize(0);
+  
   c_weighted18->cd(3); frame_lead_pT_mu_from_upsi_RAP_upsi3->Draw();
+  TH1* tmp54 = cut_mc3->createHistogram("lead_pT_mu_from_upsi_RAPIDITY", lead_pT_mu_from_upsi_RAP_bins);
+  tmp54->Scale(N_Upsi3_S_Z_S.getVal()/cut_mc3->sumEntries());
+  tmp54->Draw("hesame");
+  tmp54->SetLineColor(kRed);
+  tmp54->SetMarkerSize(0);
+  
   c_weighted18->SaveAs("c_weighted_lead_pT_mu_from_upsi_RAP.pdf");
   
+  //Canvas 19
   TCanvas *c_weighted19 = new TCanvas("c_weighted19", "c_weighted19", 1200, 400); c_weighted19->Divide(3,1);
+  
   c_weighted19->cd(1); frame_lead_pT_mu_from_upsi_eta_upsi1->Draw();
+  TH1* tmp55 = cut_mc1->createHistogram("lead_pT_mu_from_upsi_eta", lead_pT_mu_from_upsi_eta_bins);
+  tmp55->Scale(N_Upsi1_S_Z_S.getVal()/cut_mc1->sumEntries());
+  tmp55->Draw("hesame");
+  tmp55->SetLineColor(kRed);
+  tmp55->SetMarkerSize(0);
+  
   c_weighted19->cd(2); frame_lead_pT_mu_from_upsi_eta_upsi2->Draw();
+  TH1* tmp56 = cut_mc2->createHistogram("lead_pT_mu_from_upsi_eta", lead_pT_mu_from_upsi_eta_bins);
+  tmp56->Scale(N_Upsi2_S_Z_S.getVal()/cut_mc2->sumEntries());
+  tmp56->Draw("hesame");
+  tmp56->SetLineColor(kRed);
+  tmp56->SetMarkerSize(0);
+  
   c_weighted19->cd(3); frame_lead_pT_mu_from_upsi_eta_upsi3->Draw();
+  TH1* tmp57 = cut_mc3->createHistogram("lead_pT_mu_from_upsi_eta", lead_pT_mu_from_upsi_eta_bins);
+  tmp57->Scale(N_Upsi3_S_Z_S.getVal()/cut_mc3->sumEntries());
+  tmp57->Draw("hesame");
+  tmp57->SetLineColor(kRed);
+  tmp57->SetMarkerSize(0);
+  
   c_weighted19->SaveAs("c_weighted_lead_pT_mu_from_upsi_eta.pdf");
   
+  //Canvas 20
   TCanvas *c_weighted20 = new TCanvas("c_weighted20", "c_weighted20", 1200,400); c_weighted20->Divide(3,1);
+  
   c_weighted20->cd(1); frame_lead_pT_mu_from_upsi_phi_upsi1->Draw();
+  TH1* tmp58 = cut_mc1->createHistogram("lead_pT_mu_from_upsi_phi", lead_pT_mu_from_upsi_phi_bins);
+  tmp58->Scale(N_Upsi1_S_Z_S.getVal()/cut_mc1->sumEntries());
+  tmp58->Draw("hesame");
+  tmp58->SetLineColor(kRed);
+  tmp58->SetMarkerSize(0);
+  
   c_weighted20->cd(2); frame_lead_pT_mu_from_upsi_phi_upsi2->Draw();
+  TH1* tmp59 = cut_mc2->createHistogram("lead_pT_mu_from_upsi_phi", lead_pT_mu_from_upsi_phi_bins);
+  tmp59->Scale(N_Upsi2_S_Z_S.getVal()/cut_mc2->sumEntries());
+  tmp59->Draw("hesame");
+  tmp59->SetLineColor(kRed);
+  tmp59->SetMarkerSize(0);
+  
   c_weighted20->cd(3); frame_lead_pT_mu_from_upsi_phi_upsi3->Draw();
+  TH1* tmp60 = cut_mc3->createHistogram("lead_pT_mu_from_upsi_phi", lead_pT_mu_from_upsi_phi_bins);
+  tmp60->Scale(N_Upsi3_S_Z_S.getVal()/cut_mc3->sumEntries());
+  tmp60->Draw("hesame");
+  tmp60->SetLineColor(kRed);
+  tmp60->SetMarkerSize(0);
+  
   c_weighted20->SaveAs("c_weighted_lead_pT_mu_from_upsi_phi.pdf");
   
+  //Canvas 21
   TCanvas *c_weighted21 = new TCanvas("c_weighted21", "c_weighted21", 1200,400); c_weighted21->Divide(3,1);
+  
   c_weighted21->cd(1); frame_sublead_pT_mu_from_upsi_pT_upsi1->Draw();
+  TH1* tmp61 = cut_mc1->createHistogram("sublead_pT_mu_from_upsi_pT", sublead_pT_mu_from_upsi_pT_bins);
+  tmp61->Scale(N_Upsi1_S_Z_S.getVal()/cut_mc1->sumEntries());
+  tmp61->Draw("hesame");
+  tmp61->SetLineColor(kRed);
+  tmp61->SetMarkerSize(0);
+  
   c_weighted21->cd(2); frame_sublead_pT_mu_from_upsi_pT_upsi2->Draw();
+  TH1* tmp62 = cut_mc2->createHistogram("sublead_pT_mu_from_upsi_pT", sublead_pT_mu_from_upsi_pT_bins);
+  tmp62->Scale(N_Upsi2_S_Z_S.getVal()/cut_mc2->sumEntries());
+  tmp62->Draw("hesame");
+  tmp62->SetLineColor(kRed);
+  tmp62->SetMarkerSize(0);
+  
   c_weighted21->cd(3); frame_sublead_pT_mu_from_upsi_pT_upsi3->Draw();
+  TH1* tmp63 = cut_mc3->createHistogram("sublead_pT_mu_from_upsi_pT", sublead_pT_mu_from_upsi_pT_bins);
+  tmp63->Scale(N_Upsi3_S_Z_S.getVal()/cut_mc3->sumEntries());
+  tmp63->Draw("hesame");
+  tmp63->SetLineColor(kRed);
+  tmp63->SetMarkerSize(0);
+  
   c_weighted21->SaveAs("c_weighted_sublead_pT_mu_from_upsi_pT.pdf");
   
+  //Canvas 22
   TCanvas *c_weighted22 = new TCanvas("c_weighted22", "c_weighted22", 1200,400); c_weighted22->Divide(3,1);
+  
   c_weighted22->cd(1); frame_sublead_pT_mu_from_upsi_RAP_upsi1->Draw();
+  TH1* tmp64 = cut_mc1->createHistogram("sublead_pT_mu_from_upsi_RAPIDITY", sublead_pT_mu_from_upsi_RAP_bins);
+  tmp64->Scale(N_Upsi1_S_Z_S.getVal()/cut_mc1->sumEntries());
+  tmp64->Draw("hesame");
+  tmp64->SetLineColor(kRed);
+  tmp64->SetMarkerSize(0);
+  
   c_weighted22->cd(2); frame_sublead_pT_mu_from_upsi_RAP_upsi2->Draw();
+  TH1* tmp65 = cut_mc2->createHistogram("sublead_pT_mu_from_upsi_RAPIDITY", sublead_pT_mu_from_upsi_RAP_bins);
+  tmp65->Scale(N_Upsi2_S_Z_S.getVal()/cut_mc2->sumEntries());
+  tmp65->Draw("hesame");
+  tmp65->SetLineColor(kRed);
+  tmp65->SetMarkerSize(0);
+  
   c_weighted22->cd(3); frame_sublead_pT_mu_from_upsi_RAP_upsi3->Draw();
+  TH1* tmp66 = cut_mc3->createHistogram("sublead_pT_mu_from_upsi_RAPIDITY", sublead_pT_mu_from_upsi_RAP_bins);
+  tmp66->Scale(N_Upsi3_S_Z_S.getVal()/cut_mc3->sumEntries());
+  tmp66->Draw("hesame");
+  tmp66->SetLineColor(kRed);
+  tmp66->SetMarkerSize(0);
+  
   c_weighted22->SaveAs("c_weighted_sublead_pT_mu_from_upsi_RAP.pdf");
   
+  //Canvas 23
   TCanvas *c_weighted23 = new TCanvas("c_weighted23", "c_weighted23",1200, 400); c_weighted23->Divide(3,1);
+  
   c_weighted23->cd(1); frame_sublead_pT_mu_from_upsi_eta_upsi1->Draw();
+  TH1* tmp67 = cut_mc1->createHistogram("sublead_pT_mu_from_upsi_eta", sublead_pT_mu_from_upsi_eta_bins);
+  tmp67->Scale(N_Upsi1_S_Z_S.getVal()/cut_mc1->sumEntries());
+  tmp67->Draw("hesame");
+  tmp67->SetLineColor(kRed);
+  tmp67->SetMarkerSize(0);
+  
   c_weighted23->cd(2); frame_sublead_pT_mu_from_upsi_eta_upsi2->Draw();
+  TH1* tmp68 = cut_mc2->createHistogram("sublead_pT_mu_from_upsi_eta", sublead_pT_mu_from_upsi_eta_bins);
+  tmp68->Scale(N_Upsi2_S_Z_S.getVal()/cut_mc2->sumEntries());
+  tmp68->Draw("hesame");
+  tmp68->SetLineColor(kRed);
+  tmp68->SetMarkerSize(0);
+  
   c_weighted23->cd(3); frame_sublead_pT_mu_from_upsi_eta_upsi3->Draw();
+  TH1* tmp69 = cut_mc3->createHistogram("sublead_pT_mu_from_upsi_eta", sublead_pT_mu_from_upsi_eta_bins);
+  tmp69->Scale(N_Upsi3_S_Z_S.getVal()/cut_mc3->sumEntries());
+  tmp69->Draw("hesame");
+  tmp69->SetLineColor(kRed);
+  tmp69->SetMarkerSize(0);
+  
   c_weighted23->SaveAs("c_weighted_sublead_pT_mu_from_upsi_eta.pdf");
   
+  //Canvas 24
   TCanvas *c_weighted24 = new TCanvas("c_weighted24", "c_weighted24", 1200, 400); c_weighted24->Divide(3,1);
+  
   c_weighted24->cd(1); frame_sublead_pT_mu_from_upsi_phi_upsi1->Draw();
+  TH1* tmp70 = cut_mc1->createHistogram("sublead_pT_mu_from_upsi_phi", sublead_pT_mu_from_upsi_phi_bins);
+  tmp70->Scale(N_Upsi1_S_Z_S.getVal()/cut_mc1->sumEntries());
+  tmp70->Draw("hesame");
+  tmp70->SetLineColor(kRed);
+  tmp70->SetMarkerSize(0);
+  
   c_weighted24->cd(2); frame_sublead_pT_mu_from_upsi_phi_upsi2->Draw();
+  TH1* tmp71 = cut_mc2->createHistogram("sublead_pT_mu_from_upsi_phi", sublead_pT_mu_from_upsi_phi_bins);
+  tmp71->Scale(N_Upsi2_S_Z_S.getVal()/cut_mc2->sumEntries());
+  tmp71->Draw("hesame");
+  tmp71->SetLineColor(kRed);
+  tmp71->SetMarkerSize(0);
+  
+  
   c_weighted24->cd(3); frame_sublead_pT_mu_from_upsi_phi_upsi3->Draw();
+  TH1* tmp72 = cut_mc3->createHistogram("sublead_pT_mu_from_upsi_phi", sublead_pT_mu_from_upsi_phi_bins);
+  tmp72->Scale(N_Upsi3_S_Z_S.getVal()/cut_mc3->sumEntries());
+  tmp72->Draw("hesame");
+  tmp72->SetLineColor(kRed);
+  tmp72->SetMarkerSize(0);
+  
   c_weighted24->SaveAs("c_weighted_sublead_pT_mu_from_upsi_phi.pdf");
   
    #ifdef CalculatePulls
