@@ -803,7 +803,9 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   std::cout << "CHECKPOINT A1" << std::endl;
  // frame_pt_upsilon1->Sumw2(); //Doesn't work, there is no member Sumw2 in RooPlot
   std::cout << "CHECKPOINT B" << std::endl;
- // TH1* h1 = (TH1*)frame_pt_upsilon1->Clone("h1");
+ // TH1* h1 = (TH1*)frame_pt_upsilon1->Clone("h1"); //this doesn't cause a compilation error, but creates a silent monster that then causes seg faults when you try
+ //to do things with it, such as call Sumw2 (you get a seg fault) or Divide (another seg fault). Looks like you cannot convert a RooPlot object to a TH1 in this way
+ //Unfortunately, ROOT doesn't help you out by giving a useful error when you try to do this
  TH1* h1 = data_weighted_1->createHistogram("upsi_pT", upsi_pT_bins);
   std::cout << "CHECKPOINT C" << std::endl;
   std::cout << h1->GetBinContent(1) << std::endl;
