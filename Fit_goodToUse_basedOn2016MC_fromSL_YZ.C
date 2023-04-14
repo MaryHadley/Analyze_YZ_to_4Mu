@@ -181,9 +181,9 @@ void fit() {
 //  TFile *ntuple_mc = new TFile("ntuple_2016_2017_2018_pfIso0p7forUpsiMu_0p2forZMu.root");
 //  TFile *ntuple_mc = new TFile("30March2023_ntuple_2016_2017_2018_Run2_Data_Total.root"); //should be the same as 2016_2017_2018_pfIso_0p35_forZmu_0p7_forUpsiMu.root
 //  TFile *ntuple_mc    = new TFile("MC_Weighted_Run2_Total_YZ.root");
-//   TFile *ntuple_mc    = new TFile("ntuple_2016_upsi_type_double.root"); //this is for testing only!
+    TFile *ntuple_mc    = new TFile("ntuple_2016_upsi_type_double.root"); //this is for testing only!
 //    TFile *ntuple_mc = new TFile("12April2023_ntuple_v3_pfIso0p35forZmu_0p7forUpsiMu_2016_2017_2018_Total_Data.root");
-  TFile *ntuple_mc = new TFile("MC_DPS_Weighted_Run2_Total_YZ_v3.root"); //this version of the root file, the v3, has upsi_type as a double, which turns out to be 
+//  TFile *ntuple_mc = new TFile("MC_DPS_Weighted_Run2_Total_YZ_v3.root"); //this version of the root file, the v3, has upsi_type as a double, which turns out to be 
   //critical for being able to add it our RooArgSet
   TTree* tree_mc      = (TTree*) ntuple_mc->Get("tree");
 
@@ -784,26 +784,84 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
  //Canvas 1
   TCanvas *c_weighted = new TCanvas("c_weighted", "c_weighted", 1200, 400); c_weighted->Divide(3,1);
   
-  c_weighted->cd(1); frame_pt_upsilon1->Draw(); //Draw the sWeighted data
+  c_weighted->cd(1); 
+  TPad *pad1 = new TPad("pad1", "The pad 80% of the height",0.0,0.2,1.0,1.0,21);
+  TPad *pad2 = new TPad("pad2", "The pad 20% of the height",0.0,0.0,1.0,0.2,22);
+  pad1->SetFillColor(0); pad2->SetFillColor(0);
+  pad1->Draw();
+  pad2->Draw();
+  pad1->cd();
+  std::cout << "CHECKPOINT A" << std::endl;
+  frame_pt_upsilon1->Draw(); //Draw the sWeighted data
   TH1* tmp1 = cut_mc1->createHistogram("upsi_pT", upsi_pT_bins); //Draw and scale the upsi pT of upsilons that have been tagged as upsi 1
   tmp1->Scale(N_Upsi1_S_Z_S.getVal()/cut_mc1->sumEntries());
   tmp1->Draw("hesame");
   tmp1->SetLineColor(kRed);
   tmp1->SetMarkerSize(0);
+  c_weighted->cd(1);
+  pad2->cd();
+  std::cout << "CHECKPOINT A1" << std::endl;
+ // frame_pt_upsilon1->Sumw2(); //Doesn't work, there is no member Sumw2 in RooPlot
+  std::cout << "CHECKPOINT B" << std::endl;
+ // TH1* h1 = (TH1*)frame_pt_upsilon1->Clone("h1");
+ TH1* h1 = data_weighted_1->createHistogram("upsi_pT", upsi_pT_bins);
+  std::cout << "CHECKPOINT C" << std::endl;
+  std::cout << h1->GetBinContent(1) << std::endl;
+  std::cout << h1->GetBinContent(2) << std::endl;
+  std::cout << tmp1->GetBinContent(1) << std::endl;
+  std::cout << tmp1->GetBinContent(2) << std::endl;
+  h1->Sumw2();
+  std::cout << "CHECKPOINT D"  << std::endl;
+  h1->Divide(tmp1);
+  std::cout << "CHECKPOINT E" << std::endl;
+  h1->Draw();
+  h1->GetYaxis()->SetRangeUser(0.,2.);
+  c_weighted->cd(1);
   
-  c_weighted->cd(2); frame_pt_upsilon2->Draw();
+  c_weighted->cd(2); 
+  TPad *pad3 = new TPad("pad3", "The pad 80% of the height",0.0,0.2,1.0,1.0,21);
+  TPad *pad4 = new TPad("pad4", "The pad 20% of the height",0.0,0.0,1.0,0.2,22);
+  pad3->SetFillColor(0); pad4->SetFillColor(0);
+  pad3->Draw();
+  pad4->Draw();
+  pad3->cd();
+  frame_pt_upsilon2->Draw();
   TH1* tmp2 = cut_mc2->createHistogram("upsi_pT", upsi_pT_bins);
   tmp2->Scale(N_Upsi2_S_Z_S.getVal()/cut_mc2->sumEntries());
   tmp2->Draw("hesame");
   tmp2->SetLineColor(kRed);
   tmp2->SetMarkerSize(0);
+  c_weighted->cd(2);
+  pad4->cd();
+  TH1* h2 = data_weighted_2->createHistogram("upsi_pT", upsi_pT_bins);
+  h2->Sumw2();
+  h2->Divide(tmp2);
+  h2->Draw();
+  h2->GetYaxis()->SetRangeUser(0.,2.);
   
-  c_weighted->cd(3); frame_pt_upsilon3->Draw();
+  c_weighted->cd(3); 
+  TPad *pad5 = new TPad("pad5", "The pad 80% of the height",0.0,0.2,1.0,1.0,21);
+  TPad *pad6 = new TPad("pad6", "The pad 20% of the height",0.0,0.0,1.0,0.2,22);
+  pad5->SetFillColor(0); pad6->SetFillColor(0);
+  pad5->Draw();
+  pad6->Draw();
+  pad5->cd();
+  frame_pt_upsilon3->Draw();
   TH1* tmp3= cut_mc3->createHistogram("upsi_pT", upsi_pT_bins);
   tmp3->Scale(N_Upsi3_S_Z_S.getVal()/cut_mc3->sumEntries());
   tmp3->Draw("hesame");
   tmp3->SetLineColor(kRed);
   tmp3->SetMarkerSize(0);
+  c_weighted->cd(3);
+  pad6->cd();
+  TH1* h3 = data_weighted_3->createHistogram("upsi_pT", upsi_pT_bins);
+  h3->Sumw2();
+  std::cout << "CHECKPOINT F" << std::endl;
+  std::cout << h3->GetBinContent(2) << std::endl;
+  std::cout << tmp3->GetBinContent(2) << std::endl;
+  h3->Divide(tmp3);
+  h3->Draw();
+  h3->GetYaxis()->SetRangeUser(0.,2.);
   
   c_weighted->SaveAs("c_weighted_upsi_pT.pdf");
 
