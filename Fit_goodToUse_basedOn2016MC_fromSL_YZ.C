@@ -1344,78 +1344,232 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   //Canvas 8
   TCanvas *c_weighted8 = new TCanvas("c_weighted8", "c_weighted8", 1200, 400); c_weighted8->Divide(3,1);
   
-  c_weighted8->cd(1); frame_eta_upsi1->Draw();
+  c_weighted8->cd(1); 
+  TPad *pad43 = new TPad("pad43", "The pad 80% of the height",0.0,0.2,1.0,1.0,23);
+  TPad *pad44 = new TPad("pad44", "The pad 20% of the height",0.0,0.0,1.0,0.2,24);
+  pad43->SetFillColor(0); pad44->SetFillColor(0);
+  pad43->Draw();
+  pad44->Draw();
+  
+  pad43->cd();
+  frame_eta_upsi1->Draw();
   TH1* tmp22 = cut_mc1->createHistogram("upsi_eta", upsi_eta_bins);
   tmp22->Scale(N_Upsi1_S_Z_S.getVal()/cut_mc1->sumEntries());
   tmp22->Draw("hesame");
   tmp22->SetLineColor(kRed);
   tmp22->SetMarkerSize(0);
+  c_weighted8->cd(1);
   
-  c_weighted8->cd(2); frame_eta_upsi2->Draw();
+  pad44->cd();
+  TH1* h22 = data_weighted_1->createHistogram("upsi_eta",upsi_eta_bins);
+  h22->Sumw2();
+  h22->Divide(tmp22);
+  h22->Draw();
+  h22->GetYaxis()->SetRangeUser(0.,5.);
+  
+  c_weighted8->cd(2); 
+  TPad *pad45 = new TPad("pad45", "The pad 80% of the height",0.0,0.2,1.0,1.0,23);
+  TPad *pad46 = new TPad("pad46", "The pad 20% of the height",0.0,0.0,1.0,0.2,24);
+  pad45->SetFillColor(0); pad46->SetFillColor(0);
+  pad45->Draw();
+  pad46->Draw();
+  
+  pad45->cd();
+  frame_eta_upsi2->Draw();
   TH1* tmp23 = cut_mc2->createHistogram("upsi_eta", upsi_eta_bins);
   tmp23->Scale(N_Upsi2_S_Z_S.getVal()/cut_mc2->sumEntries());
   tmp23->Draw("hesame");
   tmp23->SetLineColor(kRed);
   tmp23->SetMarkerSize(0);
+  c_weighted8->cd(2);
   
-  c_weighted8->cd(3); frame_eta_upsi3->Draw();
+  pad46->cd();
+  TH1* h23 = data_weighted_2->createHistogram("upsi_eta", upsi_eta_bins);
+  h23->Sumw2();
+  h23->Divide(tmp23);
+  h23->Draw();
+  h23->GetYaxis()->SetRangeUser(0.,5.);
+  
+  c_weighted8->cd(3); 
+  TPad *pad47 = new TPad("pad47", "The pad 80% of the height",0.0,0.2,1.0,1.0,23);
+  TPad *pad48 = new TPad("pad48", "The pad 20% of the height",0.0,0.0,1.0,0.2,24);
+  pad47->SetFillColor(0); pad48->SetFillColor(0);
+  pad47->Draw();
+  pad48->Draw();
+  
+  pad47->cd();
+  frame_eta_upsi3->Draw();
   TH1* tmp24 = cut_mc3->createHistogram("upsi_eta", upsi_eta_bins);
   tmp24->Scale(N_Upsi3_S_Z_S.getVal()/cut_mc3->sumEntries());
+  std::cout << "CHECKPOINT I1" << std::endl;
+  std::cout << tmp24->GetBinContent(5) << std::endl;
+  std::cout << tmp24->GetBinContent(4) << std::endl;
   tmp24->Draw("hesame");
   tmp24->SetLineColor(kRed);
   tmp24->SetMarkerSize(0);
+  c_weighted8->cd(3);
+  
+  pad48->cd();
+  TH1* h24 = data_weighted_3->createHistogram("upsi_eta", upsi_eta_bins);
+  std::cout << "CHECKPOINT J" << std::endl;
+  std::cout << h24->GetBinContent(5) << std::endl;
+  std::cout << h24->GetBinContent(4) << std::endl;
+  h24->Sumw2();
+  h24->Divide(tmp24);
+  h24->Draw();
+  h24->GetYaxis()->SetRangeUser(0.,5.);
+  
   
   c_weighted8->SaveAs("c_weighted_upsi_eta.pdf");
   
   //Canvas 9
   TCanvas *c_weighted9 = new TCanvas("c_weighted9", "c_weighted9", 1200, 400); c_weighted9->Divide(3,1);
   
-  c_weighted9->cd(1); frame_lead_pT_mu_from_Z_pT_upsi1->Draw();
+  c_weighted9->cd(1); 
+  TPad *pad49 = new TPad("pad49", "The pad 80% of the height",0.0,0.2,1.0,1.0,23);
+  TPad *pad50 = new TPad("pad50", "The pad 20% of the height",0.0,0.0,1.0,0.2,24);
+  pad49->SetFillColor(0); pad50->SetFillColor(0);
+  pad49->Draw();
+  pad50->Draw();
+  
+  pad49->cd();
+  frame_lead_pT_mu_from_Z_pT_upsi1->Draw();
   TH1* tmp25 = cut_mc1->createHistogram("lead_pT_mu_from_Z_pT", lead_pT_mu_from_Z_pT_bins);
   tmp25->Scale(N_Upsi1_S_Z_S.getVal()/cut_mc1->sumEntries());
   tmp25->Draw("hesame");
   tmp25->SetLineColor(kRed);
   tmp25->SetMarkerSize(0);
+  std::cout << "CHECKPOINT K" << std::endl;
+  std::cout << tmp25->GetBinContent(4) << std::endl;
+  c_weighted9->cd(1);
   
-  c_weighted9->cd(2); frame_lead_pT_mu_from_Z_pT_upsi2->Draw();
+  pad50->cd();
+  TH1* h25 = data_weighted_1->createHistogram("lead_pT_mu_from_Z_pT", lead_pT_mu_from_Z_pT_bins);
+  h25->Sumw2();
+  std::cout << h25->GetBinContent(4) << std::endl;
+  h25->Divide(tmp25);
+  h25->Draw();
+  h25->GetYaxis()->SetRangeUser(0.,5.);
+  
+  c_weighted9->cd(2); 
+  TPad *pad51 = new TPad("pad51", "The pad 80% of the height",0.0,0.2,1.0,1.0,23);
+  TPad *pad52 = new TPad("pad52", "The pad 20% of the height",0.0,0.0,1.0,0.2,24);
+  pad51->SetFillColor(0); pad52->SetFillColor(0);
+  pad51->Draw();
+  pad52->Draw();
+  
+  pad51->cd();
+  frame_lead_pT_mu_from_Z_pT_upsi2->Draw();
   TH1* tmp26 = cut_mc2->createHistogram("lead_pT_mu_from_Z_pT", lead_pT_mu_from_Z_pT_bins);
   tmp26->Scale(N_Upsi2_S_Z_S.getVal()/cut_mc2->sumEntries());
   tmp26->Draw("hesame");
   tmp26->SetLineColor(kRed);
   tmp26->SetMarkerSize(0);
+  c_weighted9->cd(2);
   
-  c_weighted9->cd(3); frame_lead_pT_mu_from_Z_pT_upsi3->Draw();
+  pad52->cd();
+  TH1* h26 = data_weighted_2->createHistogram("lead_pT_mu_from_Z_pT", lead_pT_mu_from_Z_pT_bins);
+  h26->Sumw2();
+  h26->Divide(tmp26);
+  h26->Draw();
+  h26->GetYaxis()->SetRangeUser(0.,5.);
+  
+  c_weighted9->cd(3); 
+  TPad *pad53 = new TPad("pad53", "The pad 80% of the height",0.0,0.2,1.0,1.0,23);
+  TPad *pad54 = new TPad("pad54", "The pad 20% of the height",0.0,0.0,1.0,0.2,24);
+  pad53->SetFillColor(0); pad54->SetFillColor(0);
+  pad53->Draw();
+  pad54->Draw();
+  
+  pad53->cd();
+  frame_lead_pT_mu_from_Z_pT_upsi3->Draw();
   TH1* tmp27 = cut_mc3->createHistogram("lead_pT_mu_from_Z_pT", lead_pT_mu_from_Z_pT_bins);
   tmp27->Scale(N_Upsi3_S_Z_S.getVal()/cut_mc3->sumEntries());
   tmp27->Draw("hesame");
   tmp27->SetLineColor(kRed);
   tmp27->SetMarkerSize(0);
+  c_weighted9->cd(3);
+  
+  pad54->cd();
+  TH1* h27 = data_weighted_3->createHistogram("lead_pT_mu_from_Z_pT", lead_pT_mu_from_Z_pT_bins);
+  h27->Sumw2();
+  h27->Divide(tmp27);
+  h27->Draw();
+  h27->GetYaxis()->SetRangeUser(0.,5.);
   
   c_weighted9->SaveAs("c_weighted_lead_pT_mu_from_Z_pT.pdf");
   
   //Canvas 10
   TCanvas *c_weighted10 = new TCanvas("c_weighted10", "c_weighted10", 1200, 400); c_weighted10->Divide(3,1);
   
-  c_weighted10->cd(1); frame_lead_pT_mu_from_Z_RAP_upsi1->Draw();
+  c_weighted10->cd(1); 
+  TPad *pad55 = new TPad("pad55", "The pad 80% of the height",0.0,0.2,1.0,1.0,23);
+  TPad *pad56 = new TPad("pad56", "The pad 20% of the height",0.0,0.0,1.0,0.2,24);
+  pad55->SetFillColor(0); pad56->SetFillColor(0);
+  pad55->Draw();
+  pad56->Draw();
+  
+  pad55->cd();
+  frame_lead_pT_mu_from_Z_RAP_upsi1->Draw();
   TH1* tmp28 = cut_mc1->createHistogram("lead_pT_mu_from_Z_RAPIDITY", lead_pT_mu_from_Z_RAP_bins);
   tmp28->Scale(N_Upsi1_S_Z_S.getVal()/cut_mc1->sumEntries());
   tmp28->Draw("hesame");
   tmp28->SetLineColor(kRed);
   tmp28->SetMarkerSize(0);
+  c_weighted10->cd(1);
+  
+  pad56->cd();
+  TH1* h28 = data_weighted_1->createHistogram("lead_pT_mu_from_Z_RAPIDITY", lead_pT_mu_from_Z_RAP_bins);
+  h28->Sumw2();
+  h28->Divide(tmp28);
+  h28->Draw();
+  h28->GetYaxis()->SetRangeUser(0.,5.);
  
-  c_weighted10->cd(2); frame_lead_pT_mu_from_Z_RAP_upsi2->Draw();
+  c_weighted10->cd(2); 
+  TPad *pad57 = new TPad("pad57", "The pad 80% of the height",0.0,0.2,1.0,1.0,23);
+  TPad *pad58 = new TPad("pad58", "The pad 20% of the height",0.0,0.0,1.0,0.2,24);
+  pad57->SetFillColor(0); pad58->SetFillColor(0);
+  pad57->Draw();
+  pad58->Draw();
+  
+  pad57->cd();
+  frame_lead_pT_mu_from_Z_RAP_upsi2->Draw();
   TH1* tmp29 = cut_mc2->createHistogram("lead_pT_mu_from_Z_RAPIDITY", lead_pT_mu_from_Z_RAP_bins);
   tmp29->Scale(N_Upsi2_S_Z_S.getVal()/cut_mc2->sumEntries());
   tmp29->Draw("hesame");
   tmp29->SetLineColor(kRed);
   tmp29->SetMarkerSize(0);
+  c_weighted10->cd(2);
   
-  c_weighted10->cd(3); frame_lead_pT_mu_from_Z_RAP_upsi3->Draw();
+  pad58->cd();
+  TH1* h29 = data_weighted_2->createHistogram("lead_pT_mu_from_Z_RAPIDITY", lead_pT_mu_from_Z_RAP_bins);
+  h29->Sumw2();
+  h29->Divide(tmp29);
+  h29->Draw();
+  h29->GetYaxis()->SetRangeUser(0.,5.);
+ 
+  c_weighted10->cd(3); 
+  TPad *pad59 = new TPad("pad59", "The pad 80% of the height",0.0,0.2,1.0,1.0,23);
+  TPad *pad60 = new TPad("pad60", "The pad 20% of the height",0.0,0.0,1.0,0.2,24);
+  pad59->SetFillColor(0); pad60->SetFillColor(0);
+  pad59->Draw();
+  pad60->Draw();
+ 
+  pad59->cd();
+  frame_lead_pT_mu_from_Z_RAP_upsi3->Draw();
   TH1* tmp30 = cut_mc3->createHistogram("lead_pT_mu_from_Z_RAPIDITY", lead_pT_mu_from_Z_RAP_bins);
   tmp30->Scale(N_Upsi3_S_Z_S.getVal()/cut_mc3->sumEntries());
   tmp30->Draw("hesame");
   tmp30->SetLineColor(kRed);
   tmp30->SetMarkerSize(0);
+  c_weighted10->cd(3);
+  
+  pad60->cd();
+  TH1* h30 = data_weighted_3->createHistogram("lead_pT_mu_from_Z_RAPIDITY", lead_pT_mu_from_Z_RAP_bins);
+  h30->Sumw2();
+  h30->Divide(tmp30);
+  h30->Draw();
+  h30->GetYaxis()->SetRangeUser(0.,5.);
   
   c_weighted10->SaveAs("c_weighted_lead_pT_mu_from_Z_RAP.pdf");
   
