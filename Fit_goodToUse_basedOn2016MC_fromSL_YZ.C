@@ -180,10 +180,10 @@ void fit() {
 //  TFile *ntuple_mc  = new TFile("2016_2017_2018_pfIso_0p35_forZmu_0p7_forUpsiMu.root");
 //  TFile *ntuple_mc = new TFile("ntuple_2016_2017_2018_pfIso0p7forUpsiMu_0p2forZMu.root");
 //  TFile *ntuple_mc = new TFile("30March2023_ntuple_2016_2017_2018_Run2_Data_Total.root"); //should be the same as 2016_2017_2018_pfIso_0p35_forZmu_0p7_forUpsiMu.root
-//  TFile *ntuple_mc    = new TFile("MC_Weighted_Run2_Total_YZ.root");
-    TFile *ntuple_mc    = new TFile("ntuple_2016_upsi_type_double.root"); //this is for testing only!
+ // TFile *ntuple_mc    = new TFile("MC_Weighted_Run2_Total_YZ.root");
+ //   TFile *ntuple_mc    = new TFile("ntuple_2016_upsi_type_double.root"); //this is for testing only!
 //    TFile *ntuple_mc = new TFile("12April2023_ntuple_v3_pfIso0p35forZmu_0p7forUpsiMu_2016_2017_2018_Total_Data.root");
-//  TFile *ntuple_mc = new TFile("MC_DPS_Weighted_Run2_Total_YZ_v3.root"); //this version of the root file, the v3, has upsi_type as a double, which turns out to be 
+  TFile *ntuple_mc = new TFile("MC_DPS_Weighted_Run2_Total_YZ_v3.root"); //this version of the root file, the v3, has upsi_type as a double, which turns out to be 
   //critical for being able to add it our RooArgSet
   TTree* tree_mc      = (TTree*) ntuple_mc->Get("tree");
 
@@ -781,6 +781,10 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   
  //Canvases, draw on them and save them
  
+ //upper and lower limits for Y axis of ratio plots defined here
+ double lowerLimitYForRatioPlot = 0.;
+ double upperLimitYForRatioPlot = 5.;
+ 
  //Canvas 1
   TCanvas *c_weighted = new TCanvas("c_weighted", "c_weighted", 1200, 400); c_weighted->Divide(3,1);
   
@@ -819,7 +823,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h1->Divide(tmp1);
   std::cout << "CHECKPOINT E" << std::endl;
   h1->Draw();
-  h1->GetYaxis()->SetRangeUser(0.,5.);
+  h1->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   c_weighted->cd(1);
   
   c_weighted->cd(2); 
@@ -843,7 +847,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h2->Sumw2();
   h2->Divide(tmp2);
   h2->Draw();
-  h2->GetYaxis()->SetRangeUser(0.,5.);
+  h2->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   c_weighted->cd(3); 
   TPad *pad5 = new TPad("pad5", "The pad 80% of the height",0.0,0.2,1.0,1.0,21);
@@ -869,7 +873,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   std::cout << tmp3->GetBinContent(2) << std::endl;
   h3->Divide(tmp3);
   h3->Draw();
-  h3->GetYaxis()->SetRangeUser(0.,5.);
+  h3->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   c_weighted->SaveAs("c_weighted_upsi_pT.pdf");
 
@@ -903,7 +907,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   std::cout << tmp4->GetBinContent(3) << std::endl;
   h4->Divide(tmp4);
   h4->Draw();
-  h4->GetYaxis()->SetRangeUser(0.,5.);
+  h4->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   c_weighted2->cd(2); 
   TPad *pad9 = new TPad("pad9", "The pad 80% of the height",0.0,0.2,1.0,1.0,21);
@@ -926,7 +930,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h5->Sumw2();
   h5->Divide(tmp5);
   h5->Draw();
-  h5->GetYaxis()->SetRangeUser(0.,5.);
+  h5->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   c_weighted2->cd(3); 
   TPad *pad11 = new TPad("pad11", "The pad 80% of the height",0.0,0.2,1.0,1.0,21);
@@ -949,7 +953,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h6->Sumw2();
   h6->Divide(tmp6);
   h6->Draw();
-  h6->GetYaxis()->SetRangeUser(0.,5.);
+  h6->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   c_weighted2->SaveAs("c_weighted_Z_pT.pdf");
   
@@ -977,7 +981,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h7->Sumw2();
   h7->Divide(tmp7);
   h7->Draw();
-  h7->GetYaxis()->SetRangeUser(0.,5.);
+  h7->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   c_weighted3->cd(2); 
   TPad *pad15 = new TPad("pad15", "The pad 80% of the height",0.0,0.2,1.0,1.0,21);
@@ -1000,7 +1004,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h8->Sumw2();
   h8->Divide(tmp8);
   h8->Draw();
-  h8->GetYaxis()->SetRangeUser(0.,5.);
+  h8->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   c_weighted3->cd(3); 
   TPad *pad17 = new TPad("pad17", "The pad 80% of the height",0.0,0.2,1.0,1.0,21);
@@ -1023,7 +1027,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h9->Sumw2();
   h9->Divide(tmp9);
   h9->Draw();
-  h9->GetYaxis()->SetRangeUser(0.,5.);
+  h9->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   c_weighted3->SaveAs("c_weighted_Z_RAP.pdf");
   
@@ -1052,7 +1056,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h10->Sumw2();
   h10->Divide(tmp10);
   h10->Draw();
-  h10->GetYaxis()->SetRangeUser(0.,5.);
+  h10->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   c_weighted4->cd(2); 
   
@@ -1076,7 +1080,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h11->Sumw2();
   h11->Divide(tmp11);
   h11->Draw();
-  h11->GetYaxis()->SetRangeUser(0.,5.);
+  h11->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   c_weighted4->cd(3); 
    
@@ -1100,7 +1104,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h12->Sumw2();
   h12->Divide(tmp12);
   h12->Draw();
-  h12->GetYaxis()->SetRangeUser(0.,5.);
+  h12->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   c_weighted4->SaveAs("c_weighted_Z_phi.pdf");
   
@@ -1136,7 +1140,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h13->Sumw2();
   h13->Divide(tmp13);
   h13->Draw();
-  h13->GetYaxis()->SetRangeUser(0.,5.);
+  h13->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   //Start here 14 April 2023
   c_weighted5->cd(2); 
@@ -1161,7 +1165,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h14->Sumw2();
   h14->Divide(tmp14);
   h14->Draw();
-  h14->GetYaxis()->SetRangeUser(0.,5.);
+  h14->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   c_weighted5->cd(3); 
   
@@ -1185,7 +1189,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h15->Sumw2();
   h15->Divide(tmp15);
   h15->Draw();
-  h15->GetYaxis()->SetRangeUser(0.,5.);
+  h15->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   c_weighted5->SaveAs("c_weighted_Z_eta.pdf");
   
@@ -1217,7 +1221,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h16->Sumw2();
   h16->Divide(tmp16);
   h16->Draw();
-  h16->GetYaxis()->SetRangeUser(0.,5.);
+  h16->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   c_weighted6->cd(2); 
   TPad *pad33 = new TPad("pad33", "The pad 80% of the height",0.0,0.2,1.0,1.0,23);
@@ -1240,7 +1244,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h17->Sumw2();
   h17->Divide(tmp17);
   h17->Draw();
-  h17->GetYaxis()->SetRangeUser(0.,5.);
+  h17->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   c_weighted6->cd(3); 
   TPad *pad35 = new TPad("pad35", "The pad 80% of the height",0.0,0.2,1.0,1.0,23);
@@ -1263,7 +1267,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h18->Sumw2();
   h18->Divide(tmp18);
   h18->Draw();
-  h18->GetYaxis()->SetRangeUser(0.,5.);
+  h18->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   c_weighted6->SaveAs("c_weighted_upsi_RAP.pdf");
   
@@ -1291,7 +1295,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h19->Sumw2();
   h19->Divide(tmp19);
   h19->Draw();
-  h19->GetYaxis()->SetRangeUser(0.,5.);
+  h19->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   c_weighted7->cd(2); 
   TPad *pad39 = new TPad("pad39", "The pad 80% of the height",0.0,0.2,1.0,1.0,23);
@@ -1314,7 +1318,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h20->Sumw2();
   h20->Divide(tmp20);
   h20->Draw();
-  h20->GetYaxis()->SetRangeUser(0.,5.);
+  h20->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   c_weighted7->cd(3); 
   TPad *pad41 = new TPad("pad41", "The pad 80% of the height",0.0,0.2,1.0,1.0,23);
@@ -1337,7 +1341,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h21->Sumw2();
   h21->Divide(tmp21);
   h21->Draw();
-  h21->GetYaxis()->SetRangeUser(0.,5.);
+  h21->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   c_weighted7->SaveAs("c_weighted_upsi_phi.pdf");
   
@@ -1365,7 +1369,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h22->Sumw2();
   h22->Divide(tmp22);
   h22->Draw();
-  h22->GetYaxis()->SetRangeUser(0.,5.);
+  h22->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   c_weighted8->cd(2); 
   TPad *pad45 = new TPad("pad45", "The pad 80% of the height",0.0,0.2,1.0,1.0,23);
@@ -1388,7 +1392,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h23->Sumw2();
   h23->Divide(tmp23);
   h23->Draw();
-  h23->GetYaxis()->SetRangeUser(0.,5.);
+  h23->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   c_weighted8->cd(3); 
   TPad *pad47 = new TPad("pad47", "The pad 80% of the height",0.0,0.2,1.0,1.0,23);
@@ -1417,7 +1421,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h24->Sumw2();
   h24->Divide(tmp24);
   h24->Draw();
-  h24->GetYaxis()->SetRangeUser(0.,5.);
+  h24->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   
   c_weighted8->SaveAs("c_weighted_upsi_eta.pdf");
@@ -1449,7 +1453,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   std::cout << h25->GetBinContent(4) << std::endl;
   h25->Divide(tmp25);
   h25->Draw();
-  h25->GetYaxis()->SetRangeUser(0.,5.);
+  h25->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   c_weighted9->cd(2); 
   TPad *pad51 = new TPad("pad51", "The pad 80% of the height",0.0,0.2,1.0,1.0,23);
@@ -1472,7 +1476,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h26->Sumw2();
   h26->Divide(tmp26);
   h26->Draw();
-  h26->GetYaxis()->SetRangeUser(0.,5.);
+  h26->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   c_weighted9->cd(3); 
   TPad *pad53 = new TPad("pad53", "The pad 80% of the height",0.0,0.2,1.0,1.0,23);
@@ -1495,7 +1499,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h27->Sumw2();
   h27->Divide(tmp27);
   h27->Draw();
-  h27->GetYaxis()->SetRangeUser(0.,5.);
+  h27->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   c_weighted9->SaveAs("c_weighted_lead_pT_mu_from_Z_pT.pdf");
   
@@ -1523,7 +1527,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h28->Sumw2();
   h28->Divide(tmp28);
   h28->Draw();
-  h28->GetYaxis()->SetRangeUser(0.,5.);
+  h28->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
  
   c_weighted10->cd(2); 
   TPad *pad57 = new TPad("pad57", "The pad 80% of the height",0.0,0.2,1.0,1.0,23);
@@ -1546,7 +1550,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h29->Sumw2();
   h29->Divide(tmp29);
   h29->Draw();
-  h29->GetYaxis()->SetRangeUser(0.,5.);
+  h29->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
  
   c_weighted10->cd(3); 
   TPad *pad59 = new TPad("pad59", "The pad 80% of the height",0.0,0.2,1.0,1.0,23);
@@ -1569,7 +1573,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h30->Sumw2();
   h30->Divide(tmp30);
   h30->Draw();
-  h30->GetYaxis()->SetRangeUser(0.,5.);
+  h30->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   c_weighted10->SaveAs("c_weighted_lead_pT_mu_from_Z_RAP.pdf");
   
@@ -1597,7 +1601,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h31->Sumw2();
   h31->Divide(tmp31);
   h31->Draw();
-  h31->GetYaxis()->SetRangeUser(0.,5.);
+  h31->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   c_weighted11->cd(2); 
   TPad *pad63 = new TPad("pad63", "The pad 80% of the height",0.0,0.2,1.0,1.0,23);
@@ -1620,7 +1624,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h32->Sumw2();
   h32->Divide(tmp32);
   h32->Draw();
-  h32->GetYaxis()->SetRangeUser(0.,5.);
+  h32->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   c_weighted11->cd(3); 
   TPad *pad65 = new TPad("pad65", "The pad 80% of the height",0.0,0.2,1.0,1.0,23);
@@ -1643,7 +1647,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h33->Sumw2();
   h33->Divide(tmp33);
   h33->Draw();
-  h33->GetYaxis()->SetRangeUser(0.,5.);
+  h33->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   c_weighted11->SaveAs("c_weighted_lead_pT_mu_from_Z_eta.pdf");
   
@@ -1672,7 +1676,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h34->Sumw2();
   h34->Divide(tmp34);
   h34->Draw();
-  h34->GetYaxis()->SetRangeUser(0.,5.);
+  h34->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   c_weighted12->cd(2); 
   TPad *pad69 = new TPad("pad69", "The pad 80% of the height",0.0,0.2,1.0,1.0,23);
@@ -1695,7 +1699,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h35->Sumw2();
   h35->Divide(tmp35);
   h35->Draw();
-  h35->GetYaxis()->SetRangeUser(0.,5.);
+  h35->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   c_weighted12->cd(3); 
   TPad *pad71 = new TPad("pad71", "The pad 80% of the height",0.0,0.2,1.0,1.0,23);
@@ -1718,7 +1722,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h36->Sumw2();
   h36->Divide(tmp36);
   h36->Draw();
-  h36->GetYaxis()->SetRangeUser(0.,5.);
+  h36->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   c_weighted12->SaveAs("c_weighted_lead_pT_mu_from_Z_phi.pdf");
   
@@ -1746,7 +1750,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h37->Sumw2();
   h37->Divide(tmp37);
   h37->Draw();
-  h37->GetYaxis()->SetRangeUser(0.,5.);
+  h37->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   c_weighted13->cd(2); 
   TPad *pad75 = new TPad("pad75", "The pad 80% of the height",0.0,0.2,1.0,1.0,23);
@@ -1769,7 +1773,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h38->Sumw2();
   h38->Divide(tmp38);
   h38->Draw();
-  h38->GetYaxis()->SetRangeUser(0.,5.);
+  h38->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   c_weighted13->cd(3); 
   TPad *pad77 = new TPad("pad77", "The pad 80% of the height",0.0,0.2,1.0,1.0,23);
@@ -1792,7 +1796,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h39->Sumw2();
   h39->Divide(tmp39);
   h39->Draw();
-  h39->GetYaxis()->SetRangeUser(0.,5.);
+  h39->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   c_weighted13->SaveAs("c_weighted_sublead_pT_mu_from_Z_pT.pdf");
   
@@ -1820,7 +1824,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h40->Sumw2();
   h40->Divide(tmp40);
   h40->Draw();
-  h40->GetYaxis()->SetRangeUser(0.,5.);
+  h40->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   c_weighted14->cd(2); 
   TPad *pad81 = new TPad("pad81", "The pad 80% of the height",0.0,0.2,1.0,1.0,23);
@@ -1843,7 +1847,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h41->Sumw2();
   h41->Divide(tmp41);
   h41->Draw();
-  h41->GetYaxis()->SetRangeUser(0.,5.);
+  h41->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   c_weighted14->cd(3); 
   TPad *pad83 = new TPad("pad83", "The pad 80% of the height",0.0,0.2,1.0,1.0,23);
@@ -1866,7 +1870,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h42->Sumw2();
   h42->Divide(tmp42);
   h42->Draw();
-  h42->GetYaxis()->SetRangeUser(0.,5.);
+  h42->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
  
   c_weighted14->SaveAs("c_weighted_sublead_pT_mu_from_Z_RAP.pdf");
@@ -1895,7 +1899,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h43->Sumw2();
   h43->Divide(tmp43);
   h43->Draw();
-  h43->GetYaxis()->SetRangeUser(0.,5.);
+  h43->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   
   c_weighted15->cd(2); 
@@ -1919,7 +1923,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h44->Sumw2();
   h44->Divide(tmp44);
   h44->Draw();
-  h44->GetYaxis()->SetRangeUser(0.,5.);
+  h44->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   
   c_weighted15->cd(3); 
@@ -1943,7 +1947,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h45->Sumw2();
   h45->Divide(tmp45);
   h45->Draw();
-  h45->GetYaxis()->SetRangeUser(0.,5.);
+  h45->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
    c_weighted15->SaveAs("c_weighted_sublead_pT_mu_from_Z_eta.pdf");
   
@@ -1971,7 +1975,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h46->Sumw2();
   h46->Divide(tmp46);
   h46->Draw();
-  h46->GetYaxis()->SetRangeUser(0.,5.);
+  h46->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   c_weighted16->cd(2); 
   TPad *pad93 = new TPad("pad93", "The pad 80% of the height",0.0,0.2,1.0,1.0,23);
@@ -1994,7 +1998,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h47->Sumw2();
   h47->Divide(tmp47);
   h47->Draw();
-  h47->GetYaxis()->SetRangeUser(0.,5.);
+  h47->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   c_weighted16->cd(3); 
   TPad *pad95 = new TPad("pad95", "The pad 80% of the height",0.0,0.2,1.0,1.0,23);
@@ -2017,7 +2021,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h48->Sumw2();
   h48->Divide(tmp48);
   h48->Draw();
-  h48->GetYaxis()->SetRangeUser(0.,5.);
+  h48->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   c_weighted16->SaveAs("c_weighted_sublead_pT_mu_from_Z_phi.pdf");
   
@@ -2045,7 +2049,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h49->Sumw2();
   h49->Divide(tmp49);
   h49->Draw();
-  h49->GetYaxis()->SetRangeUser(0.,5.);
+  h49->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   c_weighted17->cd(2); 
   TPad *pad99 = new TPad("pad99", "The pad 80% of the height",0.0,0.2,1.0,1.0,23);
@@ -2068,7 +2072,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h50->Sumw2();
   h50->Divide(tmp50);
   h50->Draw();
-  h50->GetYaxis()->SetRangeUser(0.,5.);
+  h50->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   
   c_weighted17->cd(3); 
@@ -2092,7 +2096,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h51->Sumw2();
   h51->Divide(tmp51);
   h51->Draw();
-  h51->GetYaxis()->SetRangeUser(0.,5.);
+  h51->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   c_weighted17->SaveAs("c_weighted_lead_pT_mu_from_upsi_pT.pdf");
   
@@ -2120,7 +2124,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h52->Sumw2();
   h52->Divide(tmp52);
   h52->Draw();
-  h52->GetYaxis()->SetRangeUser(0.,5.);
+  h52->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   c_weighted18->cd(2); 
   
@@ -2144,7 +2148,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h53->Sumw2();
   h53->Divide(tmp53);
   h53->Draw();
-  h53->GetYaxis()->SetRangeUser(0.,5.);
+  h53->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   c_weighted18->cd(3); 
   
@@ -2168,7 +2172,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h54->Sumw2();
   h54->Divide(tmp54);
   h54->Draw();
-  h54->GetYaxis()->SetRangeUser(0.,5.);
+  h54->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   c_weighted18->SaveAs("c_weighted_lead_pT_mu_from_upsi_RAP.pdf");
   
@@ -2196,7 +2200,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h55->Sumw2();
   h55->Divide(tmp55);
   h55->Draw();
-  h55->GetYaxis()->SetRangeUser(0.,5.);
+  h55->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   c_weighted19->cd(2); 
   TPad *pad111 = new TPad("pad111", "The pad 80% of the height",0.0,0.2,1.0,1.0,23);
@@ -2219,7 +2223,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h56->Sumw2();
   h56->Divide(tmp56);
   h56->Draw();
-  h56->GetYaxis()->SetRangeUser(0.,5.);
+  h56->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   c_weighted19->cd(3); 
   TPad *pad113 = new TPad("pad113", "The pad 80% of the height",0.0,0.2,1.0,1.0,23);
@@ -2242,7 +2246,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h57->Sumw2();
   h57->Divide(tmp57);
   h57->Draw();
-  h57->GetYaxis()->SetRangeUser(0.,5.);
+  h57->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   c_weighted19->SaveAs("c_weighted_lead_pT_mu_from_upsi_eta.pdf");
   
@@ -2270,7 +2274,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h58->Sumw2();
   h58->Divide(tmp58);
   h58->Draw();
-  h58->GetYaxis()->SetRangeUser(0.,5.);
+  h58->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   c_weighted20->cd(2); 
   
@@ -2294,7 +2298,7 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h59->Sumw2();
   h59->Divide(tmp59);
   h59->Draw();
-  h59->GetYaxis()->SetRangeUser(0.,5.);
+  h59->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   c_weighted20->cd(3); 
   TPad *pad119 = new TPad("pad119", "The pad 80% of the height",0.0,0.2,1.0,1.0,23);
@@ -2317,112 +2321,303 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   h60->Sumw2();
   h60->Divide(tmp60);
   h60->Draw();
-  h60->GetYaxis()->SetRangeUser(0.,5.);
+  h60->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   c_weighted20->SaveAs("c_weighted_lead_pT_mu_from_upsi_phi.pdf");
   
   //Canvas 21
   TCanvas *c_weighted21 = new TCanvas("c_weighted21", "c_weighted21", 1200,400); c_weighted21->Divide(3,1);
   
-  c_weighted21->cd(1); frame_sublead_pT_mu_from_upsi_pT_upsi1->Draw();
+  c_weighted21->cd(1); 
+  TPad *pad121 = new TPad("pad121", "The pad 80% of the height",0.0,0.2,1.0,1.0,23);
+  TPad *pad122 = new TPad("pad122", "The pad 20% of the height",0.0,0.0,1.0,0.2,24);
+  pad121->SetFillColor(0); pad122->SetFillColor(0);
+  pad121->Draw();
+  pad122->Draw();
+  
+  pad121->cd();
+  frame_sublead_pT_mu_from_upsi_pT_upsi1->Draw();
   TH1* tmp61 = cut_mc1->createHistogram("sublead_pT_mu_from_upsi_pT", sublead_pT_mu_from_upsi_pT_bins);
   tmp61->Scale(N_Upsi1_S_Z_S.getVal()/cut_mc1->sumEntries());
   tmp61->Draw("hesame");
   tmp61->SetLineColor(kRed);
   tmp61->SetMarkerSize(0);
+  c_weighted21->cd(1);
   
-  c_weighted21->cd(2); frame_sublead_pT_mu_from_upsi_pT_upsi2->Draw();
+  pad122->cd();
+  TH1* h61 = data_weighted_1->createHistogram("sublead_pT_mu_from_upsi_pT", sublead_pT_mu_from_upsi_pT_bins);
+  h61->Sumw2();
+  h61->Divide(tmp61);
+  h61->Draw();
+  h61->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
+  
+  c_weighted21->cd(2);
+  TPad *pad123 = new TPad("pad123", "The pad 80% of the height",0.0,0.2,1.0,1.0,23);
+  TPad *pad124 = new TPad("pad124", "The pad 20% of the height",0.0,0.0,1.0,0.2,24);
+  pad123->SetFillColor(0); pad124->SetFillColor(0);
+  pad123->Draw();
+  pad124->Draw();
+  
+  pad123->cd();
+  frame_sublead_pT_mu_from_upsi_pT_upsi2->Draw();
   TH1* tmp62 = cut_mc2->createHistogram("sublead_pT_mu_from_upsi_pT", sublead_pT_mu_from_upsi_pT_bins);
   tmp62->Scale(N_Upsi2_S_Z_S.getVal()/cut_mc2->sumEntries());
   tmp62->Draw("hesame");
   tmp62->SetLineColor(kRed);
   tmp62->SetMarkerSize(0);
+  c_weighted21->cd(2);
   
-  c_weighted21->cd(3); frame_sublead_pT_mu_from_upsi_pT_upsi3->Draw();
+  pad124->cd();
+  TH1* h62 = data_weighted_2->createHistogram("sublead_pT_mu_from_upsi_pT", sublead_pT_mu_from_upsi_pT_bins);
+  h62->Sumw2();
+  h62->Divide(tmp62);
+  h62->Draw();
+  h62->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
+  
+  c_weighted21->cd(3); 
+  TPad *pad125 = new TPad("pad125", "The pad 80% of the height",0.0,0.2,1.0,1.0,23);
+  TPad *pad126 = new TPad("pad126", "The pad 20% of the height",0.0,0.0,1.0,0.2,24);
+  pad125->SetFillColor(0); pad126->SetFillColor(0);
+  pad125->Draw();
+  pad126->Draw();
+   
+  pad125->cd(); 
+  frame_sublead_pT_mu_from_upsi_pT_upsi3->Draw();
   TH1* tmp63 = cut_mc3->createHistogram("sublead_pT_mu_from_upsi_pT", sublead_pT_mu_from_upsi_pT_bins);
   tmp63->Scale(N_Upsi3_S_Z_S.getVal()/cut_mc3->sumEntries());
   tmp63->Draw("hesame");
   tmp63->SetLineColor(kRed);
   tmp63->SetMarkerSize(0);
+  c_weighted21->cd(3);
+  
+  pad126->cd();
+  TH1* h63 = data_weighted_3->createHistogram("sublead_pT_mu_from_upsi_pT", sublead_pT_mu_from_upsi_pT_bins);
+  h63->Sumw2();
+  h63->Divide(tmp63);
+  h63->Draw();
+  h63->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   c_weighted21->SaveAs("c_weighted_sublead_pT_mu_from_upsi_pT.pdf");
   
   //Canvas 22
   TCanvas *c_weighted22 = new TCanvas("c_weighted22", "c_weighted22", 1200,400); c_weighted22->Divide(3,1);
   
-  c_weighted22->cd(1); frame_sublead_pT_mu_from_upsi_RAP_upsi1->Draw();
+  c_weighted22->cd(1); 
+  TPad *pad127 = new TPad("pad127", "The pad 80% of the height",0.0,0.2,1.0,1.0,23);
+  TPad *pad128 = new TPad("pad128", "The pad 20% of the height",0.0,0.0,1.0,0.2,24);
+  pad127->SetFillColor(0); pad128->SetFillColor(0);
+  pad127->Draw();
+  pad128->Draw();
+   
+  pad127->cd(); 
+  frame_sublead_pT_mu_from_upsi_RAP_upsi1->Draw();
   TH1* tmp64 = cut_mc1->createHistogram("sublead_pT_mu_from_upsi_RAPIDITY", sublead_pT_mu_from_upsi_RAP_bins);
   tmp64->Scale(N_Upsi1_S_Z_S.getVal()/cut_mc1->sumEntries());
   tmp64->Draw("hesame");
   tmp64->SetLineColor(kRed);
   tmp64->SetMarkerSize(0);
+  c_weighted22->cd(1);
   
-  c_weighted22->cd(2); frame_sublead_pT_mu_from_upsi_RAP_upsi2->Draw();
+  pad128->cd();
+  TH1* h64 = data_weighted_1->createHistogram("sublead_pT_mu_from_upsi_RAPIDITY", sublead_pT_mu_from_upsi_RAP_bins);
+  h64->Sumw2();
+  h64->Divide(tmp64);
+  h64->Draw();
+  h64->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
+  
+  c_weighted22->cd(2); 
+  TPad *pad129 = new TPad("pad129", "The pad 80% of the height",0.0,0.2,1.0,1.0,23);
+  TPad *pad130 = new TPad("pad130", "The pad 20% of the height",0.0,0.0,1.0,0.2,24);
+  pad129->SetFillColor(0); pad130->SetFillColor(0);
+  pad129->Draw();
+  pad130->Draw();
+   
+  pad129->cd(); 
+  frame_sublead_pT_mu_from_upsi_RAP_upsi2->Draw();
   TH1* tmp65 = cut_mc2->createHistogram("sublead_pT_mu_from_upsi_RAPIDITY", sublead_pT_mu_from_upsi_RAP_bins);
   tmp65->Scale(N_Upsi2_S_Z_S.getVal()/cut_mc2->sumEntries());
   tmp65->Draw("hesame");
   tmp65->SetLineColor(kRed);
   tmp65->SetMarkerSize(0);
+  c_weighted22->cd(2);
   
-  c_weighted22->cd(3); frame_sublead_pT_mu_from_upsi_RAP_upsi3->Draw();
+  pad130->cd();
+  TH1* h65 = data_weighted_2->createHistogram("sublead_pT_mu_from_upsi_RAPIDITY", sublead_pT_mu_from_upsi_RAP_bins);
+  h65->Sumw2();
+  h65->Divide(tmp65);
+  h65->Draw();
+  h65->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
+  
+  c_weighted22->cd(3);
+  TPad *pad131 = new TPad("pad131", "The pad 80% of the height",0.0,0.2,1.0,1.0,23);
+  TPad *pad132 = new TPad("pad132", "The pad 20% of the height",0.0,0.0,1.0,0.2,24);
+  pad131->SetFillColor(0); pad132->SetFillColor(0);
+  pad131->Draw();
+  pad132->Draw();
+   
+  pad131->cd();  
+  frame_sublead_pT_mu_from_upsi_RAP_upsi3->Draw();
   TH1* tmp66 = cut_mc3->createHistogram("sublead_pT_mu_from_upsi_RAPIDITY", sublead_pT_mu_from_upsi_RAP_bins);
   tmp66->Scale(N_Upsi3_S_Z_S.getVal()/cut_mc3->sumEntries());
   tmp66->Draw("hesame");
   tmp66->SetLineColor(kRed);
   tmp66->SetMarkerSize(0);
+  c_weighted22->cd(3);
+  
+  pad132->cd();
+  TH1* h66 = data_weighted_3->createHistogram("sublead_pT_mu_from_upsi_RAPIDITY", sublead_pT_mu_from_upsi_RAP_bins);
+  h66->Sumw2();
+  h66->Divide(tmp66);
+  h66->Draw();
+  h66->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   c_weighted22->SaveAs("c_weighted_sublead_pT_mu_from_upsi_RAP.pdf");
   
   //Canvas 23
   TCanvas *c_weighted23 = new TCanvas("c_weighted23", "c_weighted23",1200, 400); c_weighted23->Divide(3,1);
   
-  c_weighted23->cd(1); frame_sublead_pT_mu_from_upsi_eta_upsi1->Draw();
+  c_weighted23->cd(1); 
+  TPad *pad133 = new TPad("pad133", "The pad 80% of the height",0.0,0.2,1.0,1.0,23);
+  TPad *pad134 = new TPad("pad134", "The pad 20% of the height",0.0,0.0,1.0,0.2,24);
+  pad133->SetFillColor(0); pad134->SetFillColor(0);
+  pad133->Draw();
+  pad134->Draw();
+  
+  pad133->cd();
+  frame_sublead_pT_mu_from_upsi_eta_upsi1->Draw();
   TH1* tmp67 = cut_mc1->createHistogram("sublead_pT_mu_from_upsi_eta", sublead_pT_mu_from_upsi_eta_bins);
   tmp67->Scale(N_Upsi1_S_Z_S.getVal()/cut_mc1->sumEntries());
   tmp67->Draw("hesame");
   tmp67->SetLineColor(kRed);
   tmp67->SetMarkerSize(0);
+  c_weighted23->cd(1);
   
-  c_weighted23->cd(2); frame_sublead_pT_mu_from_upsi_eta_upsi2->Draw();
+  pad134->cd();
+  TH1* h67 = data_weighted_1->createHistogram("sublead_pT_mu_from_upsi_eta", sublead_pT_mu_from_upsi_eta_bins);
+  h67->Sumw2();
+  h67->Divide(tmp67);
+  h67->Draw();
+  h67->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
+  
+  c_weighted23->cd(2); 
+  TPad *pad135 = new TPad("pad135", "The pad 80% of the height",0.0,0.2,1.0,1.0,23);
+  TPad *pad136 = new TPad("pad136", "The pad 20% of the height",0.0,0.0,1.0,0.2,24);
+  pad135->SetFillColor(0); pad136->SetFillColor(0);
+  pad135->Draw();
+  pad136->Draw();
+  
+  pad135->cd();
+  frame_sublead_pT_mu_from_upsi_eta_upsi2->Draw();
   TH1* tmp68 = cut_mc2->createHistogram("sublead_pT_mu_from_upsi_eta", sublead_pT_mu_from_upsi_eta_bins);
   tmp68->Scale(N_Upsi2_S_Z_S.getVal()/cut_mc2->sumEntries());
   tmp68->Draw("hesame");
   tmp68->SetLineColor(kRed);
   tmp68->SetMarkerSize(0);
+  c_weighted23->cd(2);
   
-  c_weighted23->cd(3); frame_sublead_pT_mu_from_upsi_eta_upsi3->Draw();
+  pad136->cd();
+  TH1* h68 = data_weighted_2->createHistogram("sublead_pT_mu_from_upsi_eta", sublead_pT_mu_from_upsi_eta_bins);
+  h68->Sumw2();
+  h68->Divide(tmp68);
+  h68->Draw();
+  h68->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
+  
+  c_weighted23->cd(3); 
+  TPad *pad137 = new TPad("pad137", "The pad 80% of the height",0.0,0.2,1.0,1.0,23);
+  TPad *pad138 = new TPad("pad138", "The pad 20% of the height",0.0,0.0,1.0,0.2,24);
+  pad137->SetFillColor(0); pad138->SetFillColor(0);
+  pad137->Draw();
+  pad138->Draw();
+  
+  pad137->cd();
+  frame_sublead_pT_mu_from_upsi_eta_upsi3->Draw();
   TH1* tmp69 = cut_mc3->createHistogram("sublead_pT_mu_from_upsi_eta", sublead_pT_mu_from_upsi_eta_bins);
   tmp69->Scale(N_Upsi3_S_Z_S.getVal()/cut_mc3->sumEntries());
   tmp69->Draw("hesame");
   tmp69->SetLineColor(kRed);
   tmp69->SetMarkerSize(0);
+  c_weighted23->cd(3);
+  
+  pad138->cd();
+  TH1* h69 = data_weighted_3->createHistogram("sublead_pT_mu_from_upsi_eta", sublead_pT_mu_from_upsi_eta_bins);
+  h69->Sumw2();
+  h69->Divide(tmp69);
+  h69->Draw();
+  h69->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   c_weighted23->SaveAs("c_weighted_sublead_pT_mu_from_upsi_eta.pdf");
   
   //Canvas 24
   TCanvas *c_weighted24 = new TCanvas("c_weighted24", "c_weighted24", 1200, 400); c_weighted24->Divide(3,1);
   
-  c_weighted24->cd(1); frame_sublead_pT_mu_from_upsi_phi_upsi1->Draw();
+  c_weighted24->cd(1); 
+  TPad *pad139 = new TPad("pad139", "The pad 80% of the height",0.0,0.2,1.0,1.0,23);
+  TPad *pad140 = new TPad("pad140", "The pad 20% of the height",0.0,0.0,1.0,0.2,24);
+  pad139->SetFillColor(0); pad140->SetFillColor(0);
+  pad139->Draw();
+  pad140->Draw();
+  
+  pad139->cd();
+  frame_sublead_pT_mu_from_upsi_phi_upsi1->Draw();
   TH1* tmp70 = cut_mc1->createHistogram("sublead_pT_mu_from_upsi_phi", sublead_pT_mu_from_upsi_phi_bins);
   tmp70->Scale(N_Upsi1_S_Z_S.getVal()/cut_mc1->sumEntries());
   tmp70->Draw("hesame");
   tmp70->SetLineColor(kRed);
   tmp70->SetMarkerSize(0);
+  c_weighted24->cd(1);
   
-  c_weighted24->cd(2); frame_sublead_pT_mu_from_upsi_phi_upsi2->Draw();
+  pad140->cd();
+  TH1* h70 = data_weighted_1->createHistogram("sublead_pT_mu_from_upsi_phi", sublead_pT_mu_from_upsi_phi_bins);
+  h70->Sumw2();
+  h70->Divide(tmp70);
+  h70->Draw();
+  h70->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
+  
+  c_weighted24->cd(2); 
+  TPad *pad141 = new TPad("pad141", "The pad 80% of the height",0.0,0.2,1.0,1.0,23);
+  TPad *pad142 = new TPad("pad142", "The pad 20% of the height",0.0,0.0,1.0,0.2,24);
+  pad141->SetFillColor(0); pad142->SetFillColor(0);
+  pad141->Draw();
+  pad142->Draw();
+  
+  pad141->cd();
+  frame_sublead_pT_mu_from_upsi_phi_upsi2->Draw();
   TH1* tmp71 = cut_mc2->createHistogram("sublead_pT_mu_from_upsi_phi", sublead_pT_mu_from_upsi_phi_bins);
   tmp71->Scale(N_Upsi2_S_Z_S.getVal()/cut_mc2->sumEntries());
   tmp71->Draw("hesame");
   tmp71->SetLineColor(kRed);
   tmp71->SetMarkerSize(0);
+  c_weighted24->cd(2);
   
+  pad142->cd();
+  TH1* h71 = data_weighted_2->createHistogram("sublead_pT_mu_from_upsi_phi", sublead_pT_mu_from_upsi_phi_bins);
+  h71->Sumw2();
+  h71->Divide(tmp71);
+  h71->Draw();
+  h71->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
-  c_weighted24->cd(3); frame_sublead_pT_mu_from_upsi_phi_upsi3->Draw();
+  c_weighted24->cd(3); 
+  TPad *pad143 = new TPad("pad143", "The pad 80% of the height",0.0,0.2,1.0,1.0,23);
+  TPad *pad144 = new TPad("pad144", "The pad 20% of the height",0.0,0.0,1.0,0.2,24);
+  pad143->SetFillColor(0); pad144->SetFillColor(0);
+  pad143->Draw();
+  pad144->Draw();
+  
+  pad143->cd();
+  frame_sublead_pT_mu_from_upsi_phi_upsi3->Draw();
   TH1* tmp72 = cut_mc3->createHistogram("sublead_pT_mu_from_upsi_phi", sublead_pT_mu_from_upsi_phi_bins);
   tmp72->Scale(N_Upsi3_S_Z_S.getVal()/cut_mc3->sumEntries());
   tmp72->Draw("hesame");
   tmp72->SetLineColor(kRed);
   tmp72->SetMarkerSize(0);
+  c_weighted24->cd(3);
+  
+  pad144->cd();
+  TH1* h72 = data_weighted_3->createHistogram("sublead_pT_mu_from_upsi_phi", sublead_pT_mu_from_upsi_phi_bins);
+  h72->Sumw2();
+  h72->Divide(tmp72);
+  h72->Draw();
+  h72->GetYaxis()->SetRangeUser(lowerLimitYForRatioPlot,upperLimitYForRatioPlot)  ;
   
   c_weighted24->SaveAs("c_weighted_sublead_pT_mu_from_upsi_phi.pdf");
   
