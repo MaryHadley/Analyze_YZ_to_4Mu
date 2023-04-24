@@ -181,9 +181,9 @@ void fit() {
 //  TFile *ntuple_mc = new TFile("ntuple_2016_2017_2018_pfIso0p7forUpsiMu_0p2forZMu.root");
 //  TFile *ntuple_mc = new TFile("30March2023_ntuple_2016_2017_2018_Run2_Data_Total.root"); //should be the same as 2016_2017_2018_pfIso_0p35_forZmu_0p7_forUpsiMu.root
 //  TFile *ntuple_mc    = new TFile("MC_Weighted_Run2_Total_YZ.root");
-    TFile *ntuple_mc    = new TFile("ntuple_2016_upsi_type_double.root"); //this is for testing only!
+//    TFile *ntuple_mc    = new TFile("ntuple_2016_upsi_type_double.root"); //this is for testing only!
 //    TFile *ntuple_mc = new TFile("12April2023_ntuple_v3_pfIso0p35forZmu_0p7forUpsiMu_2016_2017_2018_Total_Data.root");
-//  TFile *ntuple_mc = new TFile("MC_DPS_Weighted_Run2_Total_YZ_v3.root"); //this version of the root file, the v3, has upsi_type as a double, which turns out to be 
+  TFile *ntuple_mc = new TFile("MC_DPS_Weighted_Run2_Total_YZ_v3.root"); //this version of the root file, the v3, has upsi_type as a double, which turns out to be 
   //critical for being able to add it our RooArgSet
   TTree* tree_mc      = (TTree*) ntuple_mc->Get("tree");
 
