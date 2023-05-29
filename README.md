@@ -13,7 +13,7 @@ cd ..
 rm -rf Analyze_YZ_to_4Mu  
 
 #To run code  
-root -l -b Fit_goodToUse_basedOn2016MC_fromSL.C++
+root -l -b Fit_goodToUse_basedOn2016MC_fromSL.C++ #For case where upsi mu pT cut is set to 4
 
-
+root -l -b Fit_goodToUse_basedOn2018MC_upsiMuPtCut3_fromSL.C++ #For case where upsi mu pT cut is set to 3
 
