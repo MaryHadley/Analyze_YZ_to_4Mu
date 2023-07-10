@@ -94,3 +94,12 @@ print "########################"
 
 print "Minimum normalized S_min score:  ", min(S_min_2 * (1./norm_factor_2), S_min_3 * (1./norm_factor_3), S_min_4 * (1./norm_factor_4))
 print "Minimum normalized S_min_imp score:  ", min(S_min_imp_2 * (1./norm_factor_2), S_min_imp_3 * (1./norm_factor_3), S_min_imp_4 * (1./norm_factor_4))
+
+normalized_S_min_dict = {"pT_cut_2":S_min_2 * (1./norm_factor_2), "pT_cut_3":S_min_3 * (1./norm_factor_3), "pT_cut_4": S_min_4 * (1./norm_factor_4)}
+normalized_S_min_imp_dict = {"pT_cut_2": S_min_imp_2 * (1./norm_factor_2), "pT_cut_3": S_min_imp_3 * (1./norm_factor_3), "pT_cut_4": S_min_imp_4 * (1./norm_factor_4) }
+
+#https://blog.finxter.com/how-to-get-the-key-with-minimum-value-in-a-python-dictionary/
+print "Cut to use:"
+print "###########"
+print "According to S_min: ", (min(normalized_S_min_dict, key=normalized_S_min_dict.get))
+print "According to S_min_imp:  ", (min(normalized_S_min_imp_dict, key=normalized_S_min_imp_dict.get))
