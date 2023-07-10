@@ -31,7 +31,8 @@ def compute_S_min_imp(a,b,B):
 # print compute_S_min (a,b,B)
 
 
-#print compute_S_min(a=1, B=1, b=2) #returns the same thing as compute_S_min(a=1, b=2, B=2), as it should
+#print compute_S_min(a=1, B=1, b=2) #returns the same thing as compute_S_min(a=1, b=2, B=1), as it should
+#print compute_S_min(a=1, b=2, B=1)
 
 #Stat Comm suggests a=2, b=5, so we will use those
 #norm_factor_<N> == avg_eff_from_YZ_ZY_weighted_avgs_<N>, comes from
