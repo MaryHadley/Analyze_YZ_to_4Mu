@@ -40,15 +40,16 @@ def compute_S_min_imp(a,b,B):
 #Upsi mu pT cut of 2 case
 #a =2 
 #b = 5
-#B = 159 + 68. 4 = 237.4
+#B = 159 + 68. 4 = 227.4
+#B = 159.353 + 68.4048  = 227.7578
 #norm_factor_2 = 0.473110716857
 
 print "Upsi mu pT cut of 2 case:"
 print "########################"
-print "S_min:  ", compute_S_min(a=2, b=5, B=237.4)
-print "S_min_imp:  ", compute_S_min_imp(a=2, b=5, B=237.4)
-S_min_2 = compute_S_min(a=2, b=5, B=237.4)
-S_min_imp_2 = compute_S_min_imp(a=2, b=5, B=237.4)
+print "S_min:  ", compute_S_min(a=2, b=5, B=227.7578)
+print "S_min_imp:  ", compute_S_min_imp(a=2, b=5, B=227.7578)
+S_min_2 = compute_S_min(a=2, b=5, B=227.7578)
+S_min_imp_2 = compute_S_min_imp(a=2, b=5, B=227.7578)
 norm_factor_2 = 0.473110716857
 print "Normalized S_min:  ", S_min_2 * (1./norm_factor_2)
 print "Normalized S_min_imp:  ", S_min_imp_2 * (1./norm_factor_2)
@@ -58,15 +59,16 @@ print "########################"
 #a =2
 #b = 5
 #B = 88.9 + 48.1 = 137
+#B = 88.9234 +48.104 = 137.0274
 #norm_factor_3 = 0.44361221096
 
 print "Upsi mu pT cut of 3 case:"
 print "########################"
-print "S_min:  ", compute_S_min(a=2, b=5, B=137)
-print "S_min_imp:  ", compute_S_min_imp(a=2, b=5, B=137)
+print "S_min:  ", compute_S_min(a=2, b=5, B=137.0274)
+print "S_min_imp:  ", compute_S_min_imp(a=2, b=5, B=137.0274)
 norm_factor_3 = 0.44361221096
-S_min_3 = compute_S_min(a=2, b=5, B=137)
-S_min_imp_3 = compute_S_min_imp(a=2, b=5, B=137)
+S_min_3 = compute_S_min(a=2, b=5, B=137.0274)
+S_min_imp_3 = compute_S_min_imp(a=2, b=5, B=137.0274)
 print "Normalized S_min:  ", S_min_3 * (1./norm_factor_3)
 print "Normalized S_min_imp:  ", S_min_imp_3 * (1./norm_factor_3)
 print "#######################"
@@ -75,14 +77,15 @@ print "#######################"
 #a = 2
 #b = 5
 #B = 42.4 + 25.3 = 67.7
+#B = 42.4245 + 25.3029 = 67.7274
 #norm_factor_4 = 0.290611678025
 
 print "Upsi mu pT cut of 4 case:"
 print "########################"
-print "S_min:  ", compute_S_min(a=2, b=5, B = 67.7)
-print "S_min_imp:  ", compute_S_min_imp(a=2, b=5, B = 67.7)
-S_min_4 = compute_S_min(a=2, b=5, B = 67.7)
-S_min_imp_4 = compute_S_min_imp(a=2, b=5, B = 67.7)
+print "S_min:  ", compute_S_min(a=2, b=5, B = 67.7274)
+print "S_min_imp:  ", compute_S_min_imp(a=2, b=5, B = 67.7274)
+S_min_4 = compute_S_min(a=2, b=5, B = 67.7274)
+S_min_imp_4 = compute_S_min_imp(a=2, b=5, B = 67.7274)
 norm_factor_4 = 0.290611678025
 print "Normalized S_min:  ", S_min_4 * (1./norm_factor_4)
 print "Normalized S_min_imp:  ", S_min_imp_4 * (1./norm_factor_4)
