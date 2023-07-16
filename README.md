@@ -17,3 +17,5 @@ root -l -b Fit_goodToUse_basedOn2016MC_fromSL.C++ #For case where upsi mu pT cut
 
 root -l -b Fit_goodToUse_basedOn2018MC_upsiMuPtCut3_fromSL.C++ #For case where upsi mu pT cut is set to 3
 
+root -l -b Fit_goodToUse_basedOn2017MC_upsiMuPtCut2_fromSL.C++ #For case where upsi mu pT cut is set to 2  
+

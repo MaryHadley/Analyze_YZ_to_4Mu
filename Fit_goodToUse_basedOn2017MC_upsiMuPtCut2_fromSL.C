@@ -69,7 +69,7 @@ using namespace RooFit ;
 using namespace RooStats ;
 
 void fit();
-void Fit_goodToUse_basedOn2018MC_upsiMuPtCut3_fromSL() { fit(); }
+void Fit_goodToUse_basedOn2017MC_upsiMuPtCut2_fromSL() { fit(); }
 void fit() {
   
   //Constants
@@ -81,6 +81,13 @@ void fit() {
   //Variables we fit to get yields to determine the sWeights, i.e. the discriminating variables in sPlot terminology.
   // We need to calculate these yields from the extended maximum likelihood fit in order to get sWeights
   RooRealVar upsi_mass  ("upsi_mass", "m[#mu#mu] [GeV]",  8.5, 11.); //8, 12
+  
+  //Hack to get background counts in left sideband
+//  RooRealVar upsi_mass  ("upsi_mass", "m[#mu#mu] [GeV]",  8.5, 9.1);
+
+ //Hack to get background counts in right sideband
+ //  RooRealVar upsi_mass  ("upsi_mass", "m[#mu#mu] [GeV]",  10.6, 11.);
+  
   RooRealVar Z_mass  ("Z_mass", "m[#mu#mu] [GeV]",  66., 116.);
 
  //Upsi variables
@@ -89,13 +96,13 @@ void fit() {
   //this needs to be updated of course ;) //Stefanos' comment, which made me laugh because of the winking face
   RooRealVar upsi_RAPIDITY("upsi_RAPIDITY", "upsi_RAPIDITY", -2.5, 2.5);
   RooRealVar upsi_phi("upsi_phi", "upsi_phi", -PI, PI);
-  RooRealVar upsi_eta("upsi_eta", "upsi_eta", -6, 6);
+  RooRealVar upsi_eta("upsi_eta", "upsi_eta", -7, 7);
   
  //Z variables
   RooRealVar Z_pT("Z_pT","Z_pT",0, 500);
   RooRealVar Z_RAPIDITY("Z_RAPIDITY", "Z_RAPIDITY", -4, 4);
   RooRealVar Z_phi("Z_phi", "Z_phi",-PI,PI);
-  RooRealVar Z_eta("Z_eta", "Z_eta", -6, 6);
+  RooRealVar Z_eta("Z_eta", "Z_eta", -7, 7);
  
  //Lead pT mu from Z Variables
  RooRealVar lead_pT_mu_from_Z_pT("lead_pT_mu_from_Z_pT", "lead_pT_mu_from_Z_pT", 20, 300); 
@@ -143,8 +150,8 @@ void fit() {
 //    TFile *ntuple_data = new TFile("ntuple_2016_2017_2018_pfIso0p7forUpsiMu_0p2forZMu.root");
 //    TFile *ntuple_data = new TFile("30March2023_ntuple_2016_2017_2018_Run2_Data_Total.root"); //should be the same as 2016_2017_2018_pfIso_0p35_forZmu_0p7_forUpsiMu.root
 //    TFile *ntuple_data = new TFile("2016_2017_2018_Run2_Data_Total_ntuple_v3_pfIso0p35forZmu_0p7forUpsiMu_upsiMuPtCut3.root");
- //   TFile *ntuple_data = new TFile("ntuple_2016_2017_2018_data_useGlobalMuonsTrue_upsiMuPtCut3.root");
-    TFile *ntuple_data = new TFile("ntuple_data_2016_2017_2018_useGlobalMuonsFalse_upsiMuPtCut3.root");
+//    TFile *ntuple_data = new TFile("ntuple_2016_2017_2018_data_useGlobalMuonsTrue_upsiMuPtCut3.root");
+    TFile *ntuple_data = new TFile("ntuple_data_2016_2017_2018_useGlobalMuonsFalse_upsiMuPtCut2.root");
     TTree* tree_data = (TTree*) ntuple_data->Get("tree");
     
  // TFile *ntuple_mc    = new TFile("ntuple_skimmed_maryTest_12July2021.root");
@@ -167,8 +174,8 @@ void fit() {
 //  TFile *ntuple_mc = new TFile("ntuple_2016_2017_2018_pfIso0p7forUpsiMu_0p2forZMu.root");
 //  TFile *ntuple_mc = new TFile("30March2023_ntuple_2016_2017_2018_Run2_Data_Total.root"); //should be the same as 2016_2017_2018_pfIso_0p35_forZmu_0p7_forUpsiMu.root
 //  TFile *ntuple_mc = new TFile("2016_2017_2018_Run2_Data_Total_ntuple_v3_pfIso0p35forZmu_0p7forUpsiMu_upsiMuPtCut3.root");
-//  TFile *ntuple_mc = new TFile("ntuple_2016_2017_2018_data_useGlobalMuonsTrue_upsiMuPtCut3.root");
-  TFile *ntuple_mc = new TFile("ntuple_data_2016_2017_2018_useGlobalMuonsFalse_upsiMuPtCut3.root");
+ // TFile *ntuple_mc = new TFile("ntuple_2016_2017_2018_data_useGlobalMuonsTrue_upsiMuPtCut3.root");
+  TFile *ntuple_mc = new TFile("ntuple_data_2016_2017_2018_useGlobalMuonsFalse_upsiMuPtCut2.root");
   TTree* tree_mc      = (TTree*) ntuple_mc->Get("tree");
 
   RooArgSet Variables(upsi_mass, Z_mass, upsi_pT); //If you try to put too many in here, things will break, so better to do Variables.add(blah blah blah) as I do below when you want to add something
@@ -213,33 +220,37 @@ void fit() {
   
   RooDataSet *data    = new RooDataSet("data", "data", tree_data, Variables);
   RooDataSet *mc      = new RooDataSet("mc",   "mc",   tree_mc,   Variables);
+  
+  //Part of hack to get the background counts from the sideband
+  std::cout << "data->sumEntries():  " << data->sumEntries() << std::endl;
+
 
 // that's how you apply cuts if needed
 //  TCut SelectionCut = "1.";
 //  RooDataSet *cut_data      = (RooDataSet*)data     ->reduce(SelectionCut);
 
   RooRealVar mean_mUpsilon1  ("mean_mUpsilon1","mean of gaussian", 9.46);//, 9.26, 9.66); //fix mean at PDG value
-  RooRealVar sigma_mUpsilon1 ("sigma_mUpsilon1","Scale Factor 1",  0.0972478, 0.094535281, 0.099960319);  //0.1004, .0853, 0.1154
+  RooRealVar sigma_mUpsilon1 ("sigma_mUpsilon1","Scale Factor 1",  0.0984372, 0.096161733, 0.100712667);  //0.1004, .0853, 0.1154
   RooGaussian mSigUpsilon1   ("mSigUpsilon1","signal p.d.f.", upsi_mass, mean_mUpsilon1, sigma_mUpsilon1);
 
   RooRealVar mean_mUpsilon2  ("mean_mUpsilon2","mean of gaussian", 10.02);//, 9.82, 10.22); //fix mean at PDG value
-  RooRealVar sigma_mUpsilon2 ("sigma_mUpsilon2","Scale Factor 1",  0.118651,  0.10066219,  0.13663981); 
+  RooRealVar sigma_mUpsilon2 ("sigma_mUpsilon2","Scale Factor 1",  0.101639,  0.09003611, 0.11324189); 
   RooGaussian mSigUpsilon2   ("mSigUpsilon2","signal p.d.f.", upsi_mass, mean_mUpsilon2, sigma_mUpsilon2);
 
   RooRealVar mean_mUpsilon3  ("mean_mUpsilon3","mean of gaussian", 10.36);//, 10.16, 10.56); //fix mean at PDG value
-  RooRealVar sigma_mUpsilon3 ("sigma_mUpsilon3","Scale Factor 1",  0.0891999,  0.08231922,  0.09608058);
+  RooRealVar sigma_mUpsilon3 ("sigma_mUpsilon3","Scale Factor 1",   0.0930589,  0.08763298,  0.09848482);
   RooGaussian mSigUpsilon3   ("mSigUpsilon3","signal p.d.f.", upsi_mass, mean_mUpsilon3, sigma_mUpsilon3);  
 
   RooRealVar mean_mZ  ("mean_mZ","mean of gaussian", 91.2);
   RooRealVar width_mZ ("width_mZ","Scale Factor Z",  2.4952); //fix Z width to its PDG value
-  RooRealVar sigma_mZ ("sigma_mZ","Scale Factor Z",  1.27624, 1.1800219, 1.3724581); 
+  RooRealVar sigma_mZ ("sigma_mZ","Scale Factor Z",  1.23828,  1.1560068, 1.3205532); 
 //  RooGaussian mSigZ   ("mSigZ","signal p.d.f.", Z_mass, mean_mZ, sigma_mZ);
   RooVoigtian mSigZ   ("mSigZ","signal p.d.f.", Z_mass, mean_mZ, width_mZ, sigma_mZ); //RooVoigtian is a convolution of BW and Gaussian //see: https://root.cern/doc/master/classRooVoigtian.html //width needs to come first, followed by sigma 
 
-  RooRealVar        cUpsilon("cUpsilon", "cUpsilon",  -0.393041, -0.6807242, -0.1053578); // -1.04, -2.54, 0// -.5, -20, 0
+  RooRealVar        cUpsilon("cUpsilon", "cUpsilon", -0.442294,  -0.6636772, -0.2209108); // -1.04, -2.54, 0// -.5, -20, 0
   RooExponential mBkgUpsilon("mBkgUpsilon", "exponential", upsi_mass, cUpsilon);
 
-  RooRealVar        cZ("cZ", "cZ", -0.0285303, -0.0524667, -0.0045939); // -.043, -.0902, 0 //-.5, -20, 0
+  RooRealVar        cZ("cZ", "cZ",  -0.0410632, -0.05978509,  -0.02234131); // -.043, -.0902, 0 //-.5, -20, 0
   RooExponential mBkgZ("mBkgZ", "exponential", Z_mass, cZ);
 
   RooProdPdf Upsi1_S_Z_B ("Upsi1_S_Z_B", "Upsi1_S_Z_B", RooArgSet(mSigUpsilon1, mBkgZ));
@@ -349,7 +360,6 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   data->plotOn(frame_main_fit1, XErrorSize(0));//redraw the data in case it got covered by the other curves
   TCanvas *c_mass_1 = new TCanvas("c_mass_1", "c_mass_1", 900, 900); c_mass_1->cd();
   
-  
   //Try to get left sideband via integral
   upsi_mass.setRange("leftSideband", 8.5, 9.1);
   
@@ -374,8 +384,6 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   double myRightSideband = total * fraction_rs->getVal();
   
   std::cout << "events in right sideband:  " << myRightSideband << std::endl;
-  
-  
   
   
   #ifdef DrawPulls

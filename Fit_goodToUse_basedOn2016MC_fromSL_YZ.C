@@ -156,9 +156,11 @@ void fit() {
 //    TFile *ntuple_data = new TFile("ntuple_2016_2017_2018_pfIso0p7forUpsiMu_0p2forZMu.root");
 //    TFile *ntuple_data = new TFile("30March2023_ntuple_2016_2017_2018_Run2_Data_Total.root"); //should be the same as 2016_2017_2018_pfIso_0p35_forZmu_0p7_forUpsiMu.root
 //    TFile *ntuple_data   = new TFile("ntuple_2016_upsi_type_double.root"); //this is for testing only!
-    TFile *ntuple_data = new TFile("12April2023_ntuple_v3_pfIso0p35forZmu_0p7forUpsiMu_2016_2017_2018_Total_Data.root"); // this version of the root file as upsi_type saved as a double
+//    TFile *ntuple_data = new TFile("12April2023_ntuple_v3_pfIso0p35forZmu_0p7forUpsiMu_2016_2017_2018_Total_Data.root"); // this version of the root file as upsi_type saved as a double
     //which is critical for getting it added to our RooArgSet //v3 indicates that upsi_type is now a double
 //    TFile *ntuple_data = new TFile("MC_DPS_Weighted_Run2_Total_YZ_v3.root");
+ //   TFile *ntuple_data = new TFile("2016_2017_2018_Run2_Data_Total_ntuple_v3_pfIso0p35forZmu_0p7forUpsiMu_upsiMuPtCut3.root");
+    TFile *ntuple_data = new TFile("ntuple_data_2016_2017_2018_useGlobalMuonsFalse_upsiMuPtCut4.root");
     TTree* tree_data = (TTree*) ntuple_data->Get("tree");
     
  // TFile *ntuple_mc    = new TFile("ntuple_skimmed_maryTest_12July2021.root");
@@ -383,6 +385,32 @@ std::cout << "Significance for Y(3S) + Z case: " << p0_nosyst_3S << " " << RooSt
   
   data->plotOn(frame_main_fit1, XErrorSize(0));//redraw the data in case it got covered by the other curves
   TCanvas *c_mass_1 = new TCanvas("c_mass_1", "c_mass_1", 900, 900); c_mass_1->cd();
+  
+  //Try to get left sideband via integral
+  upsi_mass.setRange("leftSideband", 8.5, 9.1);
+  
+  //_ls for _leftsideband
+ RooAbsReal* fraction_ls = eSum.createIntegral(upsi_mass, NormSet(upsi_mass), Range("leftSideband"));
+  std::cout << "fraction_ls:  " << fraction_ls->getVal() << std::endl;
+
+  double total = N_Upsi1_S_Z_B.getVal() + N_Upsi2_S_Z_B.getVal() + N_Upsi3_S_Z_B.getVal() + N_UpsiX_B_Z_B.getVal() + N_UpsiX_B_Z_S.getVal() + N_Upsi1_S_Z_S.getVal() + N_Upsi2_S_Z_S.getVal() + N_Upsi3_S_Z_S.getVal();
+  std::cout << "total:  " << total << std::endl;
+  
+ double myLeftSideband = total * fraction_ls->getVal();
+   
+   std::cout << "events in left sideband:  " << myLeftSideband << std::endl;
+  
+  //Try to get right sideband via integral
+  upsi_mass.setRange("rightSideband", 10.6, 11);
+  
+  //_rs for _rightsideband
+  RooAbsReal* fraction_rs = eSum.createIntegral(upsi_mass, NormSet(upsi_mass), Range("rightSideband"));
+  std::cout << "fraction_rs:  " << fraction_rs->getVal() << std::endl;
+  
+  double myRightSideband = total * fraction_rs->getVal();
+  
+  std::cout << "events in right sideband:  " << myRightSideband << std::endl; 
+  
   
   #ifdef DrawPulls
   RooPlot* dummy_frame_jpsi = upsi_mass.frame(Title("dummy frame to extract pulls"), Bins(Upsi_bins));
