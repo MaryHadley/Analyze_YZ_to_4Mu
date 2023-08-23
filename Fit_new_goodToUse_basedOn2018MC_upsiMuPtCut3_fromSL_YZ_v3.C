@@ -303,11 +303,11 @@ void fit() {
 
   RooRealVar weightToApply("weightToApply", "weightToApply", -1000, 10000);
     VariablesSPS.add(weightToApply);
-  RooFormulaVar n1Func("n1Func","1.*@0",RooArgList(weightToApply));
+  RooFormulaVar n1Func("n1Func","1.*@0",RooArgList(weightToApply)); //@ syntax is ROOT speak for parse the variable that is listed after me here
   RooDataSet *mc0  = new RooDataSet("mc0",   "mc0",   tree_mc_sps,   VariablesSPS);
   RooRealVar* w = (RooRealVar*) mc0->addColumn(n1Func) ;
   RooDataSet mc1 (mc0->GetName(),mc0->GetTitle(),mc0,*mc0->get(),0,w->GetName()) ;
-  RooDataSet *mc_sps = (RooDataSet*)mc1.reduce("1");
+  RooDataSet *mc_sps = (RooDataSet*)mc1.reduce("1"); //C++ trick to move between pointers and non-pointers
   
    std::cout << "Checkpoint 0" << std::endl;
    std::cout << mc->sumEntries() << std::endl;
@@ -389,6 +389,8 @@ void fit() {
   RooFormulaVar N_Upsi3_S_Z_B ("N_Upsi3_S_Z_B", "N_Upsi1_S_Z_B * Y3SY1Sfactor", RooArgList(N_Upsi1_S_Z_B, Y3SY1Sfactor));
 #endif
 
+// N.B.: Values for factors come from BPH-15-005
+
   RooExtendPdf e_Upsi1_S_Z_B ("e_Upsi1_S_Z_B", "e_Upsi1_S_Z_B", Upsi1_S_Z_B, N_Upsi1_S_Z_B);
   RooExtendPdf e_Upsi2_S_Z_B ("e_Upsi2_S_Z_B", "e_Upsi2_S_Z_B", Upsi2_S_Z_B, N_Upsi2_S_Z_B);
   RooExtendPdf e_Upsi3_S_Z_B ("e_Upsi3_S_Z_B", "e_Upsi3_S_Z_B", Upsi3_S_Z_B, N_Upsi3_S_Z_B);
@@ -458,6 +460,7 @@ void fit() {
   c_2dplots->cd(1); hh12->Draw("LEGO");
   TH2* hhpdf12 = (TH2*)eSum.createHistogram("hhpdf12",Z_mass,Binning(Z_bins),YVar(upsi_mass,Binning(Upsi_bins)),Scaling(kTRUE)) ;
   c_2dplots->cd(2); hhpdf12->Draw("SURF3");
+  c_2dplots->SaveAs("c_2dplots.pdf");
 
   RooPlot *frame_main_fit1 = upsi_mass.frame(Title("mass 1 fit"), Bins(Upsi_bins));
   data->plotOn(frame_main_fit1, XErrorSize(0), Name("plotdata"));
@@ -644,7 +647,7 @@ void fit() {
     std::cout << "sWeight for event i = " << i << "," << " related to how likely this event is to be Upsi1_S_Z_S:  " << weight << std::endl;
     
 //    std::cout << "///////////////////////////////////////////" << std::endl;
-    
+#ifndef ConstraintY2SY3S
     double weight2 = sData->GetSWeight(i, "N_Upsi2_S_Z_S_sw");
     std::cout << "sWeight for event i = " << i << "," << " related to how likely this event is to be Upsi2_S_Z_S:  " << weight2 << std::endl;
     
@@ -652,7 +655,7 @@ void fit() {
     
     double weight3 = sData->GetSWeight(i, "N_Upsi3_S_Z_S_sw");
     std::cout << "sWeight for event i = " << i << "," << " related to how likely this event is to be Upsi3_S_Z_S:  " << weight3 << std::endl;
-    
+#endif
     std::cout << "///////////////////////////////////////////" << std::endl; 
 }
  
@@ -1018,7 +1021,7 @@ void fit() {
   tmp1SPS->SetLineColor(kBlue);
   tmp1->SetMarkerSize(0);
   tmp1SPS->SetMarkerSize(0);
-  TH1F *tmp1sum = new TH1F("tmp1sum", "tmp1sum", upsi_pT_bins, 0, 250); tmp1sum->SetBinErrorOption(TH1::kPoisson); tmp1sum->SetMarkerSize(0);
+  TH1F *tmp1sum = new TH1F("tmp1sum", "tmp1sum", upsi_pT_bins, 0, 250); tmp1sum->SetBinErrorOption(TH1::kPoisson); tmp1sum->SetMarkerSize(0); tmp1sum->SetLineColor(kGreen);
   tmp1sum->Add(tmp1, tmp1SPS); tmp1sum->Draw("hesame");
   c_weighted->cd(1);
   
@@ -1121,7 +1124,7 @@ void fit() {
   tmp4SPS->SetLineColor(kBlue);
   tmp4->SetMarkerSize(0);
   tmp4SPS->SetMarkerSize(0);
-  TH1F *tmp4sum = new TH1F("tmp4sum", "tmp4sum", Z_pT_bins, 0, 500); tmp4sum->SetBinErrorOption(TH1::kPoisson); tmp4sum->SetMarkerSize(0);
+  TH1F *tmp4sum = new TH1F("tmp4sum", "tmp4sum", Z_pT_bins, 0, 500); tmp4sum->SetBinErrorOption(TH1::kPoisson); tmp4sum->SetMarkerSize(0); tmp4sum->SetLineColor(kGreen);
   tmp4->SetMarkerSize(0);
   tmp4sum->Add(tmp4, tmp4SPS); tmp4sum->Draw("hesame");
   c_weighted2->cd(1);
@@ -1212,7 +1215,7 @@ void fit() {
   tmp7SPS->SetLineColor(kBlue);
   tmp7->SetMarkerSize(0);
   tmp7SPS->SetMarkerSize(0);
-  TH1F *tmp7sum = new TH1F("tmp7sum", "tmp7sum", Z_RAP_bins, -2.5, 2.5); tmp7sum->SetBinErrorOption(TH1::kPoisson); tmp7sum->SetMarkerSize(0);
+  TH1F *tmp7sum = new TH1F("tmp7sum", "tmp7sum", Z_RAP_bins, -2.5, 2.5); tmp7sum->SetBinErrorOption(TH1::kPoisson); tmp7sum->SetMarkerSize(0); tmp7sum->SetLineColor(kGreen);
   tmp7sum->Add(tmp7, tmp7SPS); tmp7sum->Draw("hesame");
   c_weighted3->cd(1);
   
@@ -1299,7 +1302,7 @@ void fit() {
   tmp10SPS->SetLineColor(kBlue);
   tmp10->SetMarkerSize(0);
   tmp10SPS->SetMarkerSize(0);
-  TH1F *tmp10sum = new TH1F("tmp10sum", "tmp10sum", Z_phi_bins, -PI, PI); tmp10sum->SetBinErrorOption(TH1::kPoisson); tmp10sum->SetMarkerSize(0);
+  TH1F *tmp10sum = new TH1F("tmp10sum", "tmp10sum", Z_phi_bins, -PI, PI); tmp10sum->SetBinErrorOption(TH1::kPoisson); tmp10sum->SetMarkerSize(0);tmp10sum->SetLineColor(kGreen);
   tmp10sum->Add(tmp10, tmp10SPS); tmp10sum->Draw("hesame");
   c_weighted4->cd(1);
   
@@ -1390,7 +1393,7 @@ void fit() {
   tmp13SPS->SetLineColor(kBlue);
   tmp13->SetMarkerSize(0);
   tmp13SPS->SetMarkerSize(0);
-  TH1F *tmp13sum = new TH1F("tmp13sum", "tmp13sum", Z_eta_bins, -12, 12); tmp13sum->SetBinErrorOption(TH1::kPoisson); tmp13sum->SetMarkerSize(0);
+  TH1F *tmp13sum = new TH1F("tmp13sum", "tmp13sum", Z_eta_bins, -12, 12); tmp13sum->SetBinErrorOption(TH1::kPoisson); tmp13sum->SetMarkerSize(0); tmp13sum->SetLineColor(kGreen);
   tmp13sum->Add(tmp13, tmp13SPS); tmp13sum->Draw("hesame");
   c_weighted5->cd(1);
   
@@ -1486,8 +1489,8 @@ void fit() {
   tmp16SPS->SetLineColor(kBlue);
   tmp16->SetMarkerSize(0);
   tmp16SPS->SetMarkerSize(0);
-  TH1F *tmp16sum = new TH1F("tmp16sum", "tmp16sum", upsi_RAP_bins, -2.5, 2.5); tmp16sum->SetBinErrorOption(TH1::kPoisson); tmp16sum->SetMarkerSize(0);
-  tmp16sum->Add(tmp16, tmp16SPS);
+  TH1F *tmp16sum = new TH1F("tmp16sum", "tmp16sum", upsi_RAP_bins, -2.5, 2.5); tmp16sum->SetBinErrorOption(TH1::kPoisson); tmp16sum->SetMarkerSize(0); tmp16sum->SetLineColor(kGreen);
+  tmp16sum->Add(tmp16, tmp16SPS); tmp16sum->Draw("hesame");
   c_weighted6->cd(1);
   
   pad32->cd();
@@ -1571,7 +1574,7 @@ void fit() {
   tmp19SPS->SetLineColor(kBlue);
   tmp19->SetMarkerSize(0);
   tmp19SPS->SetMarkerSize(0);
-  TH1F *tmp19sum = new TH1F("tmp19sum", "tmp19sum", upsi_phi_bins, -PI, PI); tmp19sum->SetBinErrorOption(TH1::kPoisson); tmp19sum->SetMarkerSize(0);
+  TH1F *tmp19sum = new TH1F("tmp19sum", "tmp19sum", upsi_phi_bins, -PI, PI); tmp19sum->SetBinErrorOption(TH1::kPoisson); tmp19sum->SetMarkerSize(0); tmp19sum->SetLineColor(kGreen);
   tmp19sum->Add(tmp19, tmp19SPS); tmp19sum->Draw("hesame");
   c_weighted7->cd(1);
   
@@ -1656,7 +1659,7 @@ void fit() {
   tmp22SPS->SetLineColor(kBlue);
   tmp22->SetMarkerSize(0);
   tmp22SPS->SetMarkerSize(0);
-  TH1F *tmp22sum = new TH1F("tmp22sum", "tmp22sum", upsi_eta_bins, -10, 10); tmp22sum->SetBinErrorOption(TH1::kPoisson); tmp22sum->SetMarkerSize(0);
+  TH1F *tmp22sum = new TH1F("tmp22sum", "tmp22sum", upsi_eta_bins, -10, 10); tmp22sum->SetBinErrorOption(TH1::kPoisson); tmp22sum->SetMarkerSize(0); tmp22sum->SetLineColor(kGreen);
   tmp22sum->Add(tmp22, tmp22SPS); tmp22sum->Draw("hesame");
   c_weighted8->cd(1);
   
@@ -1750,7 +1753,7 @@ void fit() {
   tmp25SPS->SetMarkerSize(0);
   std::cout << "CHECKPOINT K" << std::endl;
   std::cout << tmp25->GetBinContent(4) << std::endl;
-  TH1F *tmp25sum = new TH1F("tmp25sum", "tmp25sum", lead_pT_mu_from_Z_pT_bins, 20, 200); tmp25sum->SetBinErrorOption(TH1::kPoisson); tmp25sum->SetMarkerSize(0);
+  TH1F *tmp25sum = new TH1F("tmp25sum", "tmp25sum", lead_pT_mu_from_Z_pT_bins, 20, 200); tmp25sum->SetBinErrorOption(TH1::kPoisson); tmp25sum->SetMarkerSize(0); tmp25sum->SetLineColor(kGreen);
   tmp25sum->Add(tmp25, tmp25SPS); tmp25sum->Draw("hesame");
   c_weighted9->cd(1);
   
@@ -1836,7 +1839,7 @@ void fit() {
   tmp28SPS->SetLineColor(kBlue);
   tmp28->SetMarkerSize(0);
   tmp28SPS->SetMarkerSize(0);
-  TH1F *tmp28sum = new TH1F("tmp28sum", "tmp28sum", lead_pT_mu_from_Z_RAP_bins, -2.5, 2.5); tmp28sum->SetBinErrorOption(TH1::kPoisson); tmp28sum->SetMarkerSize(0);
+  TH1F *tmp28sum = new TH1F("tmp28sum", "tmp28sum", lead_pT_mu_from_Z_RAP_bins, -2.5, 2.5); tmp28sum->SetBinErrorOption(TH1::kPoisson); tmp28sum->SetMarkerSize(0); tmp28sum->SetLineColor(kGreen);
   tmp28sum->Add(tmp28, tmp28SPS); tmp28sum->Draw("hesame");
   c_weighted10->cd(1);
   
@@ -1921,7 +1924,7 @@ void fit() {
   tmp31SPS->SetLineColor(kBlue);
   tmp31->SetMarkerSize(0);
   tmp31SPS->SetMarkerSize(0);
-  TH1F *tmp31sum = new TH1F("tmp31sum", "tmp31sum", lead_pT_mu_from_Z_eta_bins, -2.5, 2.5); tmp31sum->SetBinErrorOption(TH1::kPoisson); tmp31sum->SetMarkerSize(0);
+  TH1F *tmp31sum = new TH1F("tmp31sum", "tmp31sum", lead_pT_mu_from_Z_eta_bins, -2.5, 2.5); tmp31sum->SetBinErrorOption(TH1::kPoisson); tmp31sum->SetMarkerSize(0); tmp31sum->SetLineColor(kGreen);
   tmp31sum->Add(tmp31, tmp31SPS); tmp31sum->Draw("hesame");
   c_weighted11->cd(1);
   
@@ -2007,7 +2010,7 @@ void fit() {
   tmp34SPS->SetLineColor(kBlue);
   tmp34->SetMarkerSize(0);
   tmp34SPS->SetMarkerSize(0);
-  TH1F *tmp34sum = new TH1F("tmp34sum", "tmp34sum", lead_pT_mu_from_Z_phi_bins, -PI, PI); tmp34->SetBinErrorOption(TH1::kPoisson); tmp34sum->SetMarkerSize(0);
+  TH1F *tmp34sum = new TH1F("tmp34sum", "tmp34sum", lead_pT_mu_from_Z_phi_bins, -PI, PI); tmp34->SetBinErrorOption(TH1::kPoisson); tmp34sum->SetMarkerSize(0); tmp34sum->SetLineColor(kGreen);
   tmp34sum->Add(tmp34, tmp34SPS); tmp34sum->Draw("hesame");
   c_weighted12->cd(1);
   
@@ -2092,7 +2095,7 @@ void fit() {
   tmp37SPS->SetLineColor(kBlue);
   tmp37->SetMarkerSize(0);
   tmp37SPS->SetMarkerSize(0);
-  TH1F *tmp37sum = new TH1F("tmp37sum", "tmp37sum", sublead_pT_mu_from_Z_pT_bins, 10, 150); tmp37sum->SetBinErrorOption(TH1::kPoisson); tmp37sum->SetMarkerSize(0); 
+  TH1F *tmp37sum = new TH1F("tmp37sum", "tmp37sum", sublead_pT_mu_from_Z_pT_bins, 10, 150); tmp37sum->SetBinErrorOption(TH1::kPoisson); tmp37sum->SetMarkerSize(0); tmp37sum->SetLineColor(kGreen); 
   tmp37sum->Add(tmp37, tmp37SPS); tmp37sum->Draw("hesame");
   c_weighted13->cd(1);
   
@@ -2177,7 +2180,7 @@ void fit() {
   tmp40SPS->SetLineColor(kBlue);
   tmp40->SetMarkerSize(0);
   tmp40SPS->SetMarkerSize(0);
-  TH1F *tmp40sum = new TH1F("tmp40sum", "tmp40sum", sublead_pT_mu_from_Z_RAP_bins, -2.5, 2.5); tmp40->SetBinErrorOption(TH1::kPoisson); tmp40sum->SetMarkerSize(0);
+  TH1F *tmp40sum = new TH1F("tmp40sum", "tmp40sum", sublead_pT_mu_from_Z_RAP_bins, -2.5, 2.5); tmp40->SetBinErrorOption(TH1::kPoisson); tmp40sum->SetMarkerSize(0); tmp40sum->SetLineColor(kGreen);
   tmp40sum->Add(tmp40, tmp40SPS); tmp40sum->Draw("hesame");
   c_weighted14->cd(1);
   
@@ -2263,7 +2266,7 @@ void fit() {
   tmp43SPS->SetLineColor(kBlue);
   tmp43->SetMarkerSize(0);
   tmp43SPS->SetMarkerSize(0);
-  TH1F *tmp43sum = new TH1F("tmp43sum", "", sublead_pT_mu_from_Z_eta_bins, -2.5, 2.5); tmp43sum->SetBinErrorOption(TH1::kPoisson); tmp43sum->SetMarkerSize(0);
+  TH1F *tmp43sum = new TH1F("tmp43sum", "", sublead_pT_mu_from_Z_eta_bins, -2.5, 2.5); tmp43sum->SetBinErrorOption(TH1::kPoisson); tmp43sum->SetMarkerSize(0); tmp43sum->SetLineColor(kGreen);
   tmp43sum->Add(tmp43, tmp43SPS); tmp43sum->Draw("hesame");
   c_weighted15->cd(1);
   
@@ -2349,7 +2352,7 @@ void fit() {
   tmp46SPS->SetLineColor(kBlue);
   tmp46->SetMarkerSize(0);
   tmp46SPS->SetMarkerSize(0);
-  TH1F *tmp46sum = new TH1F("tmp46sum", "", sublead_pT_mu_from_Z_phi_bins, -PI, PI); tmp46sum->SetBinErrorOption(TH1::kPoisson); tmp46sum->SetMarkerSize(0);
+  TH1F *tmp46sum = new TH1F("tmp46sum", "", sublead_pT_mu_from_Z_phi_bins, -PI, PI); tmp46sum->SetBinErrorOption(TH1::kPoisson); tmp46sum->SetMarkerSize(0); tmp46sum->SetLineColor(kGreen);
   tmp46sum->Add(tmp46, tmp46SPS); tmp46sum->Draw("hesame");
   c_weighted16->cd(1);
   
@@ -2434,7 +2437,7 @@ void fit() {
   tmp49SPS->SetLineColor(kBlue);
   tmp49->SetMarkerSize(0);
   tmp49SPS->SetMarkerSize(0);
-  TH1F *tmp49sum = new TH1F("tmp49sum", "", lead_pT_mu_from_upsi_pT_bins, 0, 120); tmp49->SetBinErrorOption(TH1::kPoisson); tmp49sum->SetMarkerSize(0);
+  TH1F *tmp49sum = new TH1F("tmp49sum", "", lead_pT_mu_from_upsi_pT_bins, 0, 120); tmp49->SetBinErrorOption(TH1::kPoisson); tmp49sum->SetMarkerSize(0); tmp49sum->SetLineColor(kGreen);
   tmp49sum->Add(tmp49, tmp49SPS); tmp49sum->Draw("hesame");
   c_weighted17->cd();
   
@@ -2520,7 +2523,7 @@ void fit() {
   tmp52SPS->SetLineColor(kBlue);
   tmp52->SetMarkerSize(0);
   tmp52SPS->SetMarkerSize(0);
-  TH1F *tmp52sum = new TH1F("tmp52sum", "", lead_pT_mu_from_upsi_RAP_bins, -2.5, 2.5); tmp52->SetBinErrorOption(TH1::kPoisson); tmp52sum->SetMarkerSize(0);
+  TH1F *tmp52sum = new TH1F("tmp52sum", "", lead_pT_mu_from_upsi_RAP_bins, -2.5, 2.5); tmp52->SetBinErrorOption(TH1::kPoisson); tmp52sum->SetMarkerSize(0); tmp52sum->SetLineColor(kGreen);
   tmp52sum->Add(tmp52, tmp52SPS); tmp52sum->Draw("hesame");
   c_weighted18->cd(1);
   
@@ -2607,7 +2610,7 @@ void fit() {
   tmp55SPS->SetLineColor(kBlue);
   tmp55->SetMarkerSize(0);
   tmp55SPS->SetMarkerSize(0);
-  TH1F *tmp55sum = new TH1F("tmp55sum", "", lead_pT_mu_from_upsi_eta_bins, -2.5, 2.5); tmp55sum->SetBinErrorOption(TH1::kPoisson); tmp55sum->SetMarkerSize(0);
+  TH1F *tmp55sum = new TH1F("tmp55sum", "", lead_pT_mu_from_upsi_eta_bins, -2.5, 2.5); tmp55sum->SetBinErrorOption(TH1::kPoisson); tmp55sum->SetMarkerSize(0); tmp55sum->SetLineColor(kGreen);
   tmp55sum->Add(tmp55, tmp55SPS); tmp55sum->Draw("hesame");
   c_weighted19->cd(1);
   
@@ -2692,7 +2695,7 @@ void fit() {
   tmp58SPS->SetLineColor(kBlue);
   tmp58->SetMarkerSize(0);
   tmp58SPS->SetMarkerSize(0);
-  TH1F *tmp58sum = new TH1F("tmp58sum", "", lead_pT_mu_from_upsi_phi_bins, -PI, PI); tmp58sum->SetBinErrorOption(TH1::kPoisson); tmp58sum->SetMarkerSize(0);
+  TH1F *tmp58sum = new TH1F("tmp58sum", "", lead_pT_mu_from_upsi_phi_bins, -PI, PI); tmp58sum->SetBinErrorOption(TH1::kPoisson); tmp58sum->SetMarkerSize(0); tmp58sum->SetLineColor(kGreen);
   tmp58sum->Add(tmp58, tmp58SPS); tmp58sum->Draw("hesame");
   c_weighted20->cd(1);
   
@@ -2778,7 +2781,7 @@ void fit() {
   tmp61SPS->SetLineColor(kBlue);
   tmp61->SetMarkerSize(0);
   tmp61SPS->SetMarkerSize(0);
-  TH1F *tmp61sum = new TH1F("tmp61sum", "", sublead_pT_mu_from_upsi_pT_bins, 0, 100); tmp61sum->SetBinErrorOption(TH1::kPoisson); tmp61sum->SetMarkerSize(0);
+  TH1F *tmp61sum = new TH1F("tmp61sum", "", sublead_pT_mu_from_upsi_pT_bins, 0, 100); tmp61sum->SetBinErrorOption(TH1::kPoisson); tmp61sum->SetMarkerSize(0); tmp61sum->SetLineColor(kGreen);
   tmp61sum->Add(tmp61, tmp61SPS); tmp61sum->Draw("hesame");
   c_weighted21->cd(1);
   
@@ -2863,7 +2866,7 @@ void fit() {
   tmp64SPS->SetLineColor(kBlue);
   tmp64->SetMarkerSize(0);
   tmp64SPS->SetMarkerSize(0);
-  TH1F *tmp64sum = new TH1F("tmp64sum", "", sublead_pT_mu_from_upsi_RAP_bins, -2.5, 2.5); tmp64sum->SetBinErrorOption(TH1::kPoisson); tmp64sum->SetMarkerSize(0);
+  TH1F *tmp64sum = new TH1F("tmp64sum", "", sublead_pT_mu_from_upsi_RAP_bins, -2.5, 2.5); tmp64sum->SetBinErrorOption(TH1::kPoisson); tmp64sum->SetMarkerSize(0); tmp64sum->SetLineColor(kGreen);
   tmp64sum->Add(tmp64, tmp64SPS); tmp64sum->Draw("hesame");
   c_weighted22->cd(1);
   
@@ -2948,7 +2951,7 @@ void fit() {
   tmp67SPS->SetLineColor(kBlue);
   tmp67->SetMarkerSize(0);
   tmp67SPS->SetMarkerSize(0);
-  TH1F *tmp67sum = new TH1F("tmp67sum", "", sublead_pT_mu_from_upsi_eta_bins, -2.5, 2.5); tmp67sum->SetBinErrorOption(TH1::kPoisson); tmp67sum->SetMarkerSize(0);
+  TH1F *tmp67sum = new TH1F("tmp67sum", "", sublead_pT_mu_from_upsi_eta_bins, -2.5, 2.5); tmp67sum->SetBinErrorOption(TH1::kPoisson); tmp67sum->SetMarkerSize(0); tmp67sum->SetLineColor(kGreen);
   tmp67sum->Add(tmp67, tmp67SPS); tmp67sum->Draw("hesame");
   c_weighted23->cd(1);
   
@@ -3122,7 +3125,7 @@ TCanvas *c_weighted24 = new TCanvas("c_weighted24", "c_weighted24", 1200, 400); 
   tmp73SPS->SetLineColor(kBlue);
   tmp73->SetMarkerSize(0);
   tmp73SPS->SetMarkerSize(0);
-  TH1F *tmp73sum = new TH1F("tmp73sum", "", deltaPhi_upsiZ_bins, 0, PI); tmp73sum->SetBinErrorOption(TH1::kPoisson); tmp73sum->SetMarkerSize(0);
+  TH1F *tmp73sum = new TH1F("tmp73sum", "", deltaPhi_upsiZ_bins, 0, PI); tmp73sum->SetBinErrorOption(TH1::kPoisson); tmp73sum->SetMarkerSize(0); tmp73sum->SetLineColor(kGreen);
   tmp73sum->Add(tmp73, tmp73SPS); tmp73sum->Draw("hesame");
   
 #ifdef datadriven
@@ -3231,7 +3234,7 @@ TCanvas *c_weighted24 = new TCanvas("c_weighted24", "c_weighted24", 1200, 400); 
   tmp76SPS->SetLineColor(kBlue);
   tmp76->SetMarkerSize(0);
   tmp76SPS->SetMarkerSize(0);
-  TH1F *tmp76sum = new TH1F("tmp76sum", "", deltaRAP_upsiZ_bins, 0, 6.); tmp76sum->SetBinErrorOption(TH1::kPoisson); tmp76sum->SetMarkerSize(0);
+  TH1F *tmp76sum = new TH1F("tmp76sum", "", deltaRAP_upsiZ_bins, 0, 6.); tmp76sum->SetBinErrorOption(TH1::kPoisson); tmp76sum->SetMarkerSize(0); tmp76sum->SetLineColor(kGreen);
   tmp76sum->Add(tmp76, tmp76SPS); tmp76sum->Draw("hesame");
 
 #ifdef datadriven
@@ -3452,7 +3455,7 @@ TCanvas *c_weighted24 = new TCanvas("c_weighted24", "c_weighted24", 1200, 400); 
   TLatex *texZ_mumu = new TLatex();
   texZ_mumu->SetTextSize(0.04);
   texZ_mumu->DrawLatex(0,  frame_RAP_SPS_DPS->GetMaximum()*1.01, "#bf{CMS} Preliminary" );
-  texZ_mumu->DrawLatex(4., frame_RAP_SPS_DPS->GetMaximum()*1.01, "133 fb^{-1} (13 TeV)" );
+  texZ_mumu->DrawLatex(4., frame_RAP_SPS_DPS->GetMaximum()*1.01, "138 fb^{-1} (13 TeV)" );
 
   TLegend* dyleg = new TLegend(0.6, 0.7, 0.8, 0.9);
   dyleg->SetTextFont(62);
@@ -3477,7 +3480,7 @@ TCanvas *c_weighted24 = new TCanvas("c_weighted24", "c_weighted24", 1200, 400); 
   hhPhiNPS->Scale(rf);
   hhPhiNPS->Draw("same"); hhPhiNPS->SetMarkerSize(0);
   texZ_mumu->DrawLatex(0,  frame_Phi_SPS_DPS->GetMaximum()*1.01, "#bf{CMS} Preliminary" );
-  texZ_mumu->DrawLatex(2., frame_Phi_SPS_DPS->GetMaximum()*1.01, "133 fb^{-1} (13 TeV)" );
+  texZ_mumu->DrawLatex(2., frame_Phi_SPS_DPS->GetMaximum()*1.01, "138 fb^{-1} (13 TeV)" );
   c_result_DPS_fit->SaveAs("deltaphi_deltay.pdf");
  
 #endif
