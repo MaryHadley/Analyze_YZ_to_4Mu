@@ -147,8 +147,8 @@ void fit() {
  //out the upsi_type ==1 case for example, trying the approach again now that upsi_type is a double
  
  //Add variables to use for SPS vs. DPS determination
- RooRealVar deltaPhi_upsiZ("deltaPhi_upsiZ", "#Delta#phi(Z, Y(nS)", 0., PI);
- RooRealVar deltaRAP_upsiZ("deltaRAP_upsiZ", "#Deltay(Z, Y(nS)", 0., 6.);
+ RooRealVar deltaPhi_upsiZ("deltaPhi_upsiZ", "#Delta#phi(Z, Y(nS))", 0., PI);
+ RooRealVar deltaRAP_upsiZ("deltaRAP_upsiZ", "#Deltay(Z, Y(nS))", 0., 6.);
  
  
  //  RooCategory upsi_type("upsi_type", "upsi_type");
